@@ -1,0 +1,7 @@
+<!-- salva come tier1.svg -->
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="28" viewBox="0 0 120 28" role="img" aria-label="Tier 1">
+  <rect rx="6" width="120" height="28" fill="#E53935"></rect>
+  <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Verdana, Geneva, sans-serif" font-size="13" fill="#fff" font-weight="700">
+    Tier 1
+  </text>
+</svg>
