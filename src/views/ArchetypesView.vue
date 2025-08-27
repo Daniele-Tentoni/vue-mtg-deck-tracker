@@ -127,6 +127,13 @@ const isDev = import.meta.env.DEV;
           tiers, no middle tiers.
         </p>
       </VCol>
+      <VCol cols="12" md="6">
+        <p class="text-h6">How you can contribute</p>
+        <p>
+          You can open an Issue or submit a Pull request to help me developing this site, or you can
+          create now an account and start submit your game data.
+        </p>
+      </VCol>
     </VRow>
     <VRow v-if="isDev">
       <VCol>

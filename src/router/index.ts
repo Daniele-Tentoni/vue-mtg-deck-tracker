@@ -1,5 +1,6 @@
 import ArchetypesView from '@/views/ArchetypesView.vue';
 import DeckView from '@/views/DeckView.vue';
+import NotFoundView from '@/views/others/NotFoundView.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 
 const router = createRouter({
@@ -26,6 +27,11 @@ const router = createRouter({
           component: DeckView,
         },
       ],
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: '404',
+      component: NotFoundView,
     },
   ],
 });
