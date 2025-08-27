@@ -17,10 +17,10 @@
             </VRow>
           </template>
           <template v-slot:[`item.my_archetype`]="{ item }">
-            {{ item.my_archetype.name }}
+            {{ isArch(item.my_archetype) ? item.my_archetype.name : '' }}
           </template>
           <template v-slot:[`item.their_archetype`]="{ item }">
-            {{ item.their_archetype.name }}
+            {{ isArch(item?.their_archetype) ? item.their_archetype.name : '' }}
           </template>
           <template v-slot:[`item.score`]="{ item }">
             {{ matchScore(item) }}
@@ -41,7 +41,6 @@
               size="small"
               variant="text"
               width="105"
-              border
               slim
               @click="toggleExpand(internalItem)"
             ></VBtn>
@@ -66,8 +65,9 @@
 
 <script setup lang="ts">
 import NewMatchDialog from '@/components/NewMatchDialog.vue';
+import { isArch, MatchClass } from '@/models/Deck';
 import { useAccount } from '@/stores/account';
-import { useDeck, type MatchType } from '@/stores/matches';
+import { useDeck } from '@/stores/matches';
 import { computed, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
@@ -97,8 +97,12 @@ const account = useAccount();
 
 const decks = useDeck();
 const items = computed(() => {
-  const my = decks.matches.filter((f) => f.my_archetype.name === deck.value);
-  const en = decks.matches.filter((f) => f.their_archetype.name === deck.value);
+  const my = decks.matches.filter(
+    (f) => isArch(f.my_archetype) && f.my_archetype.name === deck.value,
+  );
+  const en = decks.matches.filter(
+    (f) => isArch(f.their_archetype) && f.their_archetype.name === deck.value,
+  );
   const all = [...my, ...en];
   all.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
   return all;
@@ -106,7 +110,7 @@ const items = computed(() => {
 
 const loading = ref(false);
 
-const matchScore = computed(() => (match: MatchType) => {
+const matchScore = computed(() => (match: MatchClass) => {
   const c = (i?: number | null) => {
     return i === 0 ? 1 : 0;
   };
