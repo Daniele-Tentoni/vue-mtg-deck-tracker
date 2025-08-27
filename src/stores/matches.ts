@@ -60,6 +60,7 @@ export const useDeck = defineStore('match', () => {
       console.error('Missing user authenticated');
     }
 
+    // TODO: Move this const in the dedicated store.
     const remoteArchetypes = await supabase.from('archetypes').select('*');
     if (remoteArchetypes.data) {
       archetypes.value = remoteArchetypes.data;
@@ -69,6 +70,7 @@ export const useDeck = defineStore('match', () => {
       .from('matches')
       .select(MatchWithArchetypeQueryString)) as unknown as { data: MatchWithArchetypeType[] };
     if (data) {
+      matches.value = [];
       data.forEach((match) => matches.value.push(new MatchClass(match)));
     }
   }

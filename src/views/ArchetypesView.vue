@@ -5,6 +5,7 @@ import { useAccount } from '@/stores/account';
 import { useDeck } from '@/stores/matches';
 import { computed, onMounted, ref } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';
+import { useDisplay } from 'vuetify';
 import type { SortItem } from 'vuetify/lib/components/VDataTable/composables/sort.mjs';
 
 const route = useRoute();
@@ -14,6 +15,13 @@ const headers = [
   {
     title: 'Archetype',
     key: 'name',
+  },
+  {
+    title: 'Winrate',
+    key: 'winrate',
+    sortRaw(a: Deck, b: Deck) {
+      return a.rawDecimal() - b.rawDecimal();
+    },
   },
   {
     title: 'Game won',
@@ -27,13 +35,6 @@ const headers = [
     key: 'all_games',
     sortRaw(a: Deck, b: Deck) {
       return b.gamesPlayed() - a.gamesPlayed();
-    },
-  },
-  {
-    title: 'Winrate',
-    key: 'winrate',
-    sortRaw(a: Deck, b: Deck) {
-      return a.rawDecimal() - b.rawDecimal();
     },
   },
   {
@@ -72,6 +73,8 @@ onMounted(async () => {
 });
 
 const isDev = import.meta.env.DEV;
+
+const { mobile } = useDisplay();
 </script>
 
 <template>
@@ -92,6 +95,7 @@ const isDev = import.meta.env.DEV;
           </template>
           <template v-slot:[`item.name`]="{ item }">
             <VAvatar
+              v-if="!mobile"
               image="https://cards.scryfall.io/art_crop/front/5/2/52558748-6893-4c72-a9e2-e87d31796b59.jpg?1559959349"
               alt="Fblthp, the Lost"
               class="me-2"
@@ -100,14 +104,14 @@ const isDev = import.meta.env.DEV;
               {{ item.name }}
             </RouterLink>
           </template>
+          <template v-slot:[`item.winrate`]="{ item }">
+            {{ item.gamesWinRate() }}
+          </template>
           <template v-slot:[`item.game_won`]="{ item }">
             {{ item.gamesWon() }}
           </template>
           <template v-slot:[`item.all_games`]="{ item }">
             {{ item.gamesPlayed() }}
-          </template>
-          <template v-slot:[`item.winrate`]="{ item }">
-            {{ item.gamesWinRate() }}
           </template>
           <template v-slot:[`item.tier`]="{ item }">
             <img :src="`assets/tier${item.tier()}.svg`" />

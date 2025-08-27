@@ -5,6 +5,7 @@ import RegisterDialog from './components/dialogs/RegisterDialog.vue';
 import { RouterView } from 'vue-router';
 import { useAccount } from './stores/account';
 import { useGravatar } from './composables/useGravatar';
+import { VSkeletonLoader } from 'vuetify/components';
 
 const drawer = ref<boolean>(false);
 
@@ -13,11 +14,18 @@ const userId = computed(() =>
 );
 const account = useAccount();
 
+const loading = ref(false);
+
 onMounted(async () => {
-  await account.load();
-  const gravatar = useGravatar(account.account?.email, 64);
-  avatarUrl.value = gravatar.avatarUrl;
-  profileUrl.value = gravatar.profileUrl;
+  try {
+    loading.value = true;
+    await account.load();
+    const gravatar = useGravatar(account.account?.email, 64);
+    avatarUrl.value = gravatar.avatarUrl;
+    profileUrl.value = gravatar.profileUrl;
+  } finally {
+    loading.value = false;
+  }
 });
 
 const authenticated = computed(() => Boolean(account.account?.id));
@@ -54,10 +62,12 @@ const profileUrl = ref('');
       <template v-slot:append>
         <VMenu>
           <template v-slot:activator="{ props }">
-            <VAvatar v-bind="props" class="me-2">
-              <img v-if="authenticated && avatarUrl" :src="avatarUrl" alt="Avatar" />
-              <VIcon v-else>fa fa-user</VIcon>
-            </VAvatar>
+            <VSkeletonLoader :loading type="avatar">
+              <VAvatar v-bind="props" class="me-2">
+                <img v-if="authenticated && avatarUrl" :src="avatarUrl" alt="Avatar" />
+                <VIcon v-else>fa fa-user</VIcon>
+              </VAvatar>
+            </VSkeletonLoader>
           </template>
           <VList v-if="authenticated">
             <VListItem loading="true">{{ userId }}</VListItem>

@@ -7,12 +7,12 @@
     </VRow>
     <VRow>
       <VCol>
-        <VDataTable :headers :items show-expand item-value="id" :loading class="mt-8">
+        <VDataTable :headers :items show-expand :loading class="mt-8">
           <template #top>
             <VRow>
               <VSpacer></VSpacer>
               <VCol cols="auto" v-if="account.authenticated">
-                <NewMatchDialog></NewMatchDialog>
+                <NewMatchDialog :my="myArchetype?.id"></NewMatchDialog>
               </VCol>
             </VRow>
           </template>
@@ -67,12 +67,15 @@
 import NewMatchDialog from '@/components/NewMatchDialog.vue';
 import { isArch, MatchClass } from '@/models/Deck';
 import { useAccount } from '@/stores/account';
-import { useDeck } from '@/stores/matches';
+import { useArchetype } from '@/stores/archetype';
+import { useDeck, type Archetype } from '@/stores/matches';
 import { computed, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
 const route = useRoute();
 const deck = computed(() => route.params.deck.toString());
+const archetypes = useArchetype();
+const myArchetype = ref<Archetype>();
 
 const headers = [
   {
@@ -96,16 +99,16 @@ const headers = [
 const account = useAccount();
 
 const decks = useDeck();
+
 const items = computed(() => {
-  const my = decks.matches.filter(
-    (f) => isArch(f.my_archetype) && f.my_archetype.name === deck.value,
+  // TODO: Move to supabase query.
+  const matches = decks.matches.filter(
+    (f) =>
+      (isArch(f.my_archetype) && f.my_archetype.name === deck.value) ||
+      (isArch(f.their_archetype) && f.their_archetype.name === deck.value),
   );
-  const en = decks.matches.filter(
-    (f) => isArch(f.their_archetype) && f.their_archetype.name === deck.value,
-  );
-  const all = [...my, ...en];
-  all.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
-  return all;
+  matches.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+  return matches;
 });
 
 const loading = ref(false);
@@ -126,6 +129,10 @@ onMounted(async () => {
   try {
     loading.value = true;
     await decks.loadAsync();
+    const all = await archetypes.getByName(deck.value);
+    if (all && all.length > 0) {
+      myArchetype.value = all[0];
+    }
   } finally {
     loading.value = false;
   }
