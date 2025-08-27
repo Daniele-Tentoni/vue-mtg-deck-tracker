@@ -111,6 +111,9 @@
               </VExpansionPanels>
             </VCol>
           </VRow>
+          <VRow>
+            <VCol> If there are missing archetypes, open an issue on Github. </VCol>
+          </VRow>
         </template>
         <template #actions>
           <VBtn
