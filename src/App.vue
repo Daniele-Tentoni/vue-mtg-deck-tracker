@@ -4,7 +4,7 @@ import LoginDialog from './components/dialogs/LoginDialog.vue';
 import RegisterDialog from './components/dialogs/RegisterDialog.vue';
 import { RouterView } from 'vue-router';
 import { useAccount } from './stores/account';
-import { VListItem } from 'vuetify/components';
+import { useGravatar } from './composables/useGravatar';
 
 const drawer = ref<boolean>(false);
 
@@ -15,6 +15,9 @@ const account = useAccount();
 
 onMounted(async () => {
   await account.load();
+  const gravatar = useGravatar(account.account?.email, 64);
+  avatarUrl.value = gravatar.avatarUrl;
+  profileUrl.value = gravatar.profileUrl;
 });
 
 const authenticated = computed(() => Boolean(account.account?.id));
@@ -36,6 +39,9 @@ function register() {
 async function logout() {
   await account.logout();
 }
+
+const avatarUrl = ref('');
+const profileUrl = ref('');
 </script>
 
 <template>
@@ -48,11 +54,20 @@ async function logout() {
       <template v-slot:append>
         <VMenu>
           <template v-slot:activator="{ props }">
-            <VAvatar v-bind="props" icon="fa fa-user"></VAvatar>
+            <VAvatar v-bind="props" class="me-2">
+              <img v-if="authenticated && avatarUrl" :src="avatarUrl" alt="Avatar" />
+              <VIcon v-else>fa fa-user</VIcon>
+            </VAvatar>
           </template>
           <VList v-if="authenticated">
             <VListItem loading="true">{{ userId }}</VListItem>
             <!--<VListItem @click="logout">Account</VListItem>-->
+            <VListItem>
+              <a :href="profileUrl" target="_blank" class="text-blue-500 underline">
+                Gestisci Gravatar
+              </a>
+            </VListItem>
+            <VDivider class="my-2"></VDivider>
             <VListItem @click="logout">Logout</VListItem>
           </VList>
           <VList v-else>

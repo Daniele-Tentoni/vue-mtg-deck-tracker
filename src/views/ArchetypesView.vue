@@ -6,6 +6,7 @@ import { useDeck } from '@/stores/matches';
 import { computed, onMounted, ref } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';
 import type { SortItem } from 'vuetify/lib/components/VDataTable/composables/sort.mjs';
+
 const route = useRoute();
 const format = computed(() => route.params.format.toString());
 
@@ -90,6 +91,11 @@ const isDev = import.meta.env.DEV;
             </VRow>
           </template>
           <template v-slot:[`item.name`]="{ item }">
+            <VAvatar
+              image="https://cards.scryfall.io/art_crop/front/5/2/52558748-6893-4c72-a9e2-e87d31796b59.jpg?1559959349"
+              alt="Fblthp, the Lost"
+              class="me-2"
+            />
             <RouterLink :to="{ name: 'deck-home', params: { format, deck: item.name } }">
               {{ item.name }}
             </RouterLink>
