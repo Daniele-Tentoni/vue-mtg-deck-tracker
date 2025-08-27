@@ -62,6 +62,9 @@ async function login() {
     loading.value = true;
     const { error } = await supabase.auth.signInWithOtp({
       email: email.value,
+      options: {
+        emailRedirectTo: 'https://daniele-tentoni.github.io/vue-mtg-deck-tracker',
+      },
     });
     if (error) {
       loginError.value = error.message;
