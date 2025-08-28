@@ -16,7 +16,7 @@ export function useGravatar(
 
   const hash = md5(email.trim().toLowerCase());
   return {
-    avatarUrl: `https://www.gravatar.com/avatar/${hash}?s=${size}&d=identicon`,
+    avatarUrl: `https://www.gravatar.com/avatar/${hash}?s=${size}&d=monsterid`,
     profileUrl: `https://www.gravatar.com/${hash}`,
   };
 }
