@@ -75,10 +75,19 @@ onMounted(async () => {
 const isDev = import.meta.env.DEV;
 
 const { mobile } = useDisplay();
+
+const imageUrl = computed(() => (name: string) => {
+  const arc = decks.archetypes.find((f) => f.name === name);
+  if (arc?.image) {
+    return arc.image;
+  }
+
+  return 'https://cards.scryfall.io/art_crop/front/5/2/52558748-6893-4c72-a9e2-e87d31796b59.jpg?1559959349';
+});
 </script>
 
 <template>
-  <VContainer>
+  <VContainer fluid>
     <VRow>
       <VCol> {{ format }} win rates </VCol>
     </VRow>
@@ -96,7 +105,7 @@ const { mobile } = useDisplay();
           <template v-slot:[`item.name`]="{ item }">
             <VAvatar
               v-if="!mobile"
-              image="https://cards.scryfall.io/art_crop/front/5/2/52558748-6893-4c72-a9e2-e87d31796b59.jpg?1559959349"
+              :image="imageUrl(item.name)"
               alt="Fblthp, the Lost"
               class="me-2"
             />

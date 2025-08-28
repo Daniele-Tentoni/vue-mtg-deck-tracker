@@ -1,5 +1,5 @@
 <template>
-  <VContainer>
+  <VContainer fluid>
     <VRow>
       <VCol>
         {{ deck }}
@@ -7,7 +7,7 @@
     </VRow>
     <VRow>
       <VCol>
-        <VDataTable :headers :items show-expand :loading class="mt-8">
+        <VDataTable :headers :items show-expand :loading>
           <template #top>
             <VRow>
               <VSpacer></VSpacer>

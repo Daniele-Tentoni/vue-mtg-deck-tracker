@@ -61,7 +61,10 @@ export const useDeck = defineStore('match', () => {
     }
 
     // TODO: Move this const in the dedicated store.
-    const remoteArchetypes = await supabase.from('archetypes').select('*');
+    const remoteArchetypes = await supabase
+      .from('archetypes')
+      .select('*')
+      .order('name', { ascending: true });
     if (remoteArchetypes.data) {
       archetypes.value = remoteArchetypes.data;
     }

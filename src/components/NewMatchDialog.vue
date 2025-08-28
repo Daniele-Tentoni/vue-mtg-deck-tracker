@@ -17,12 +17,7 @@
       <VCard :loading>
         <template #title>New match</template>
         <template #append>
-          <VBtn
-            icon="fa fa-close"
-            @click="isActive.value = false"
-            color="error"
-            data-test="new-match-button-close"
-          ></VBtn>
+          <CloseButton @close="isActive.value = false"></CloseButton>
         </template>
         <template #text>
           <VRow>
@@ -66,37 +61,59 @@
           </VRow>
           <VRow justify="center">
             <VCol cols="auto">
-              <MatchButtonGroup v-model="g1" num="0"></MatchButtonGroup>
+              <VRow align="center">
+                <VCol cols="auto">Game one</VCol>
+                <VCol cols="auto"> <MatchButtonGroup v-model="g1" num="0"></MatchButtonGroup></VCol>
+              </VRow>
             </VCol>
             <VCol cols="auto">
-              <MatchButtonGroup v-model="s1" num="1"></MatchButtonGroup>
+              <VRow align="center">
+                <VCol cols="auto">First side game</VCol>
+                <VCol cols="auto"><MatchButtonGroup v-model="s1" num="1"></MatchButtonGroup></VCol>
+              </VRow>
             </VCol>
             <VCol cols="auto">
-              <VTooltip
-                :text="
-                  shouldPlayThird ? '' : 'You have to indicate first two games before the third one'
-                "
-              >
-                <template #activator="{ props }">
+              <VRow align="center">
+                <VCol cols="auto">
+                  <VTooltip
+                    :text="
+                      shouldPlayThird
+                        ? ''
+                        : 'You have to indicate first two games before the third one'
+                    "
+                  >
+                    <template #activator="{ props }">
+                      <span v-bind="props">Second side game</span>
+                    </template>
+                  </VTooltip>
+                </VCol>
+                <VCol cols="auto">
                   <MatchButtonGroup
-                    v-bind="props"
                     v-model="s2"
                     num="2"
                     :disabled="!shouldPlayThird"
                   ></MatchButtonGroup>
-                </template>
-              </VTooltip>
+                </VCol>
+              </VRow>
             </VCol>
+            <VCol v-if="missingResults && resultErrors" cols="12"
+              ><span class="text-red">{{ resultErrors }}</span></VCol
+            >
           </VRow>
-          <VRow>
-            <VCol data-test="new-match-resume-text">
-              {{ results }}
-            </VCol>
-          </VRow>
+          <VSlideYTransition>
+            <VRow v-if="results">
+              <VCol data-test="new-match-resume-text">
+                {{ results }}
+              </VCol>
+            </VRow>
+          </VSlideYTransition>
           <VRow>
             <VCol>
               <VExpansionPanels>
-                <VExpansionPanel title="Note">
+                <VExpansionPanel>
+                  <VExpansionPanelTitle>
+                    <VIcon class="me-2">fas fa-note-sticky</VIcon>Note
+                  </VExpansionPanelTitle>
                   <VExpansionPanelText>
                     <VRow no-gutter>
                       <VCol cols="12">
@@ -121,17 +138,11 @@
             color="success"
             data-test="new-match-create-action"
             prepend-icon="fas fa-plus"
+            variant="elevated"
+            elevation="2"
             :disabled="!validMatch"
             :loading
             >Create</VBtn
-          >
-          <VSpacer></VSpacer>
-          <VBtn
-            @click="isActive.value = false"
-            color="error"
-            data-test="new-match-action-close"
-            prepend-icon="fa fa-close"
-            >Close</VBtn
           >
         </template>
       </VCard>
@@ -140,9 +151,10 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref, type Ref } from 'vue';
-import MatchButtonGroup from './MatchButtonGroup.vue';
+import { computed, onMounted, ref, watch, type Ref } from 'vue';
 import { useDeck } from '@/stores/matches';
+import CloseButton from '@/components/dialogs/CloseButton.vue';
+import MatchButtonGroup from './MatchButtonGroup.vue';
 
 const validMatch = computed(() => yourDeck.value && theirDeck.value);
 const shouldPlayThird = computed(
@@ -155,6 +167,18 @@ const theirDeck = ref<number>();
 const g1 = ref<number>();
 const s1 = ref<number>();
 const s2 = ref<number>();
+
+watch(g1, () => {
+  if (!shouldPlayThird.value) {
+    s2.value = undefined;
+  }
+});
+
+watch(s1, () => {
+  if (!shouldPlayThird.value) {
+    s2.value = undefined;
+  }
+});
 
 const results = computed(() => {
   const p = [];
@@ -177,15 +201,22 @@ const results = computed(() => {
   }
 
   // Concat in reverse order due to array push place last elements in the head of the array.
-  return p.reduceRight((a, b) => b.concat(', ').concat(a), '');
+  return p.length > 0 ? p.join(', ').concat('.') : '';
 });
 
 const matches = useDeck();
 
 const yourDeckErrorMessage = ref('');
 const theirDeckErrorMessage = ref('');
+const resultErrors = ref('');
 
 const note = ref();
+
+const missingResults = computed(
+  () =>
+    (shouldPlayThird.value && (g1.value === undefined || s1.value === undefined)) ||
+    (g1.value === undefined && s1.value !== undefined),
+);
 
 function create(isActive: Ref<boolean>) {
   yourDeckErrorMessage.value = theirDeckErrorMessage.value = theirDeckErrorMessage.value = '';
@@ -200,16 +231,15 @@ function create(isActive: Ref<boolean>) {
     return;
   }
 
-  if (
-    g1.value === undefined ||
-    s1.value === undefined ||
-    (shouldPlayThird.value && s2.value === undefined)
-  ) {
-    theirDeckErrorMessage.value = 'Dovresti mettere un altro risultato';
+  if (missingResults.value) {
+    resultErrors.value = 'You are missing a result';
     return;
   }
 
-  if (loading.value) return;
+  if (loading.value) {
+    resultErrors.value = 'The system is busy, retry again later';
+    return;
+  }
 
   try {
     loading.value = true;

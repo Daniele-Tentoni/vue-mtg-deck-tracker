@@ -27,6 +27,8 @@ jobs:
           node-version: 20
       - run: npm ci
       - run: npm run build
+        env:
+          VITE_SUPABASE_REDIRECT: https://magic-deck-tracker.com
       - uses: actions/configure-pages@v4
       - uses: actions/upload-pages-artifact@v3
         with:

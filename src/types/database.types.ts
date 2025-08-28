@@ -45,6 +45,7 @@ export type Database = {
           side_out: string | null;
           side_second_win: number | null;
           their_archetype: number | null;
+          tournament_id: number;
         };
         Insert: {
           created_at?: string;
@@ -58,6 +59,7 @@ export type Database = {
           side_out?: string | null;
           side_second_win?: number | null;
           their_archetype?: number | null;
+          tournament_id?: number;
         };
         Update: {
           created_at?: string;
@@ -71,6 +73,7 @@ export type Database = {
           side_out?: string | null;
           side_second_win?: number | null;
           their_archetype?: number | null;
+          tournament_id?: number;
         };
         Relationships: [
           {
@@ -87,7 +90,41 @@ export type Database = {
             referencedRelation: 'archetypes';
             referencedColumns: ['id'];
           },
+          {
+            foreignKeyName: 'matches_tournament_id_fkey';
+            columns: ['tournament_id'];
+            isOneToOne: false;
+            referencedRelation: 'tournaments';
+            referencedColumns: ['id'];
+          },
         ];
+      };
+      tournaments: {
+        Row: {
+          created_at: string;
+          creator: string;
+          external_id: string;
+          id: number;
+          name: string;
+          state: number;
+        };
+        Insert: {
+          created_at?: string;
+          creator?: string;
+          external_id: string;
+          id: number;
+          name: string;
+          state: number;
+        };
+        Update: {
+          created_at?: string;
+          creator?: string;
+          external_id?: string;
+          id?: number;
+          name?: string;
+          state?: number;
+        };
+        Relationships: [];
       };
     };
     Views: {

@@ -1,7 +1,14 @@
 <template>
-  <VBtnToggle v-model="model" divided :disabled="disabled" class="mx-auto" variant="outlined">
+  <VBtnToggle
+    v-model="model"
+    divided
+    :disabled="disabled"
+    class="mx-auto"
+    variant="flat"
+    color="success"
+  >
     <div>
-      <VTooltip :text="`Player 0 have won the game`">
+      <VTooltip :text="`Player 1 have won the game`">
         <template #activator="{ props }">
           <VBtn
             v-bind="props"
@@ -11,7 +18,7 @@
           ></VBtn>
         </template>
       </VTooltip>
-      <VTooltip :text="`Player 1 have won the game`">
+      <VTooltip :text="`Player 2 have won the game`">
         <template #activator="{ props }">
           <VBtn
             v-bind="props"
@@ -26,8 +33,6 @@
 </template>
 
 <script setup lang="ts">
-import { VTooltip } from 'vuetify/components';
-
 const p = defineProps(['disabled', 'num']);
 
 const model = defineModel();

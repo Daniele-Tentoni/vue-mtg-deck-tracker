@@ -5,7 +5,6 @@ import RegisterDialog from './components/dialogs/RegisterDialog.vue';
 import { RouterView } from 'vue-router';
 import { useAccount } from './stores/account';
 import { useGravatar } from './composables/useGravatar';
-import { VSkeletonLoader } from 'vuetify/components';
 
 const drawer = ref<boolean>(false);
 
@@ -57,7 +56,7 @@ const profileUrl = ref('');
     <VAppBar>
       <VAppBarNavIcon @click="drawer = !drawer"></VAppBarNavIcon>
 
-      <VAppBarTitle>MDT</VAppBarTitle>
+      <VAppBarTitle> MDT </VAppBarTitle>
 
       <template v-slot:append>
         <VMenu>
@@ -72,17 +71,17 @@ const profileUrl = ref('');
           <VList v-if="authenticated">
             <VListItem loading="true">{{ userId }}</VListItem>
             <!--<VListItem @click="logout">Account</VListItem>-->
-            <VListItem>
-              <a :href="profileUrl" target="_blank" class="text-blue-500 underline">
-                Gestisci Gravatar
-              </a>
+            <VListItem append-icon="fas fa-arrow-up-right-from-square">
+              <a :href="profileUrl" target="_blank" class="text-blue-500 underline"> Gravatar </a>
             </VListItem>
             <VDivider class="my-2"></VDivider>
-            <VListItem @click="logout">Logout</VListItem>
+            <VListItem @click="logout" append-icon="fas fa-arrow-right-from-bracket"
+              >Logout</VListItem
+            >
           </VList>
           <VList v-else>
-            <VListItem @click="login">Login</VListItem>
-            <VListItem @click="register">Register</VListItem>
+            <VListItem @click="login" append-icon="fas fa-right-to-bracket">Login</VListItem>
+            <VListItem @click="register" append-icon="fas fa-user-plus">Register</VListItem>
           </VList>
         </VMenu>
       </template>

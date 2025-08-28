@@ -2,19 +2,23 @@
   <VDialog max-width="640px" v-model="model">
     <template #default>
       <VCard :loading>
+        <template #prepend><VIcon class="me-2">fas fa-user-plus </VIcon></template>
         <template #title>Register</template>
         <template #append>
-          <VTooltip text="Chiudi">
-            <template #activator="{ props }">
-              <VBtn v-bind="props" icon="fa fa-close" @click="model = false"></VBtn>
-            </template>
-          </VTooltip>
+          <CloseButton @close="model = false"></CloseButton>
         </template>
         <template #text>
           <VRow>
             <VCol>
-              Questa procedura ti permette di creare un nuovo account con il quale potrai aggiungere
-              i tuoi match e contribuire a migliorare la qualità dei dati presenti nel portale.
+              <p>
+                I only ask you for an email to register, no more passwords! Activate your account by
+                clicking on the link in the email I will send you and login next time with the same
+                email.
+              </p>
+              <p class="mt-2">
+                If you already have an account,
+                <span class="text-decoration-underline" @click="emit('login')">click here</span>.
+              </p>
             </VCol>
           </VRow>
           <VRow>
@@ -28,10 +32,7 @@
             </VCol>
           </VRow>
           <VRow>
-            <VCol>
-              Se possiedi già un account,
-              <span class="text-decoration-underline" @click="emit('login')">clicca qui</span>.
-            </VCol>
+            <VCol> </VCol>
           </VRow>
         </template>
         <template #actions>
@@ -47,6 +48,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { supabase } from '@/services/supabaseService';
+import CloseButton from '@/components/dialogs/CloseButton.vue';
 
 const model = defineModel<boolean>();
 
@@ -64,7 +66,7 @@ async function register() {
     const { error, data } = await supabase.auth.signInWithOtp({
       email: email.value,
       options: {
-        emailRedirectTo: 'https://daniele-tentoni.github.io/vue-mtg-deck-tracker',
+        emailRedirectTo: import.meta.env.VITE_SUPABASE_REDIRECT,
       },
     });
 

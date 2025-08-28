@@ -1,20 +1,23 @@
 <template>
-  <v-dialog max-width="640px" v-model="model">
+  <VDialog max-width="640px" v-model="model">
     <template #default>
-      <v-card :loading>
+      <VCard :loading>
+        <template #prepend><VIcon class="me-2">fas fa-right-to-bracket</VIcon></template>
         <template #title>Login</template>
         <template #append>
-          <VTooltip text="Chiudi">
-            <template #activator="{ props }">
-              <VBtn v-bind="props" icon="fa fa-close" @click="model = false"></VBtn>
-            </template>
-          </VTooltip>
+          <CloseButton @close="model = false"></CloseButton>
         </template>
         <template #text>
           <VRow>
             <VCol>
-              Non viene chiesta la password perché viene inviata soltanto una mail con un link. Così
-              devi ricordarti meno password e sei più contento.
+              <p>
+                I ask you only for an email so you don't have to remeber another password. I will
+                send you an email with a link you have to click to be redirect to this site.
+              </p>
+              <p class="mt-2">
+                If you need an account,
+                <span class="text-decoration-underline" @click="emit('register')">click here</span>.
+              </p>
             </VCol>
           </VRow>
           <VRow>
@@ -27,26 +30,21 @@
               ></VTextField>
             </VCol>
           </VRow>
-          <VRow>
-            <VCol
-              >Se devi registrarti,
-              <span class="text-decoration-underline" @click="emit('register')">clicca qui</span>.
-            </VCol>
-          </VRow>
         </template>
         <template #actions>
           <VBtn color="success" prepend-icon="fas fa-arrow-right-to-bracket" @click="login">
             Login
           </VBtn>
         </template>
-      </v-card>
+      </VCard>
     </template>
-  </v-dialog>
+  </VDialog>
 </template>
 
 <script setup lang="ts">
 import { supabase } from '@/services/supabaseService';
 import { ref } from 'vue';
+import CloseButton from '@/components/dialogs/CloseButton.vue';
 
 const model = defineModel<boolean>();
 
@@ -63,7 +61,7 @@ async function login() {
     const { error } = await supabase.auth.signInWithOtp({
       email: email.value,
       options: {
-        emailRedirectTo: 'https://daniele-tentoni.github.io/vue-mtg-deck-tracker',
+        emailRedirectTo: import.meta.env.VITE_SUPABASE_REDIRECT,
       },
     });
     if (error) {
