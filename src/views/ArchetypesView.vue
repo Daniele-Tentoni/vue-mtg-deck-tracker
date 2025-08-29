@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import NewMatchDialog from '@/components/NewMatchDialog.vue';
+import WinrateTooltip from '@/components/WinrateTooltip.vue';
 import { Deck, isArch } from '@/models/Deck';
 import { useAccount } from '@/stores/account';
 import { useDeck } from '@/stores/matches';
@@ -11,7 +12,7 @@ import type { SortItem } from 'vuetify/lib/components/VDataTable/composables/sor
 const route = useRoute();
 const format = computed(() => route.params.format.toString());
 
-const headers = [
+const _headers = [
   {
     title: 'Archetype',
     key: 'name',
@@ -29,6 +30,7 @@ const headers = [
     sortRaw(a: Deck, b: Deck) {
       return b.gamesWon() - a.gamesWon();
     },
+    mobile: false,
   },
   {
     title: 'Games played',
@@ -36,6 +38,7 @@ const headers = [
     sortRaw(a: Deck, b: Deck) {
       return b.gamesPlayed() - a.gamesPlayed();
     },
+    mobile: false,
   },
   {
     title: 'Tier',
@@ -43,6 +46,9 @@ const headers = [
     sortable: false,
   },
 ];
+const headers = computed(() =>
+  _headers.filter((f) => f.mobile === undefined || f.mobile === mobile.value),
+);
 
 const account = useAccount();
 
@@ -114,7 +120,7 @@ const imageUrl = computed(() => (name: string) => {
             </RouterLink>
           </template>
           <template v-slot:[`item.winrate`]="{ item }">
-            {{ item.gamesWinRate() }}
+            <WinrateTooltip :deck="item"></WinrateTooltip>
           </template>
           <template v-slot:[`item.game_won`]="{ item }">
             {{ item.gamesWon() }}
