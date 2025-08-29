@@ -8,9 +8,6 @@ const properties = defineProps<{ deck: Deck }>();
 const visible = ref(false);
 
 const { mobile } = useDisplay();
-
-const tierColor =
-  properties.deck.tier() === 1 ? '#E53935' : properties.deck.tier() === 2 ? '#F4B400' : '#2E7D32';
 </script>
 
 <template>
@@ -22,7 +19,7 @@ const tierColor =
       <span v-bind="props" @click="visible = true">{{ properties.deck.gamesWinRate() }}</span>
     </template>
   </VTooltip>
-  <VSnackbar v-if="mobile" v-model="visible" :timeout="6000" :color="tierColor"
+  <VSnackbar v-if="mobile" v-model="visible" :timeout="6000" :color="deck.tierColor()"
     >Games won: {{ deck.gamesWon() }}<br />Games played: {{ deck.gamesPlayed() }}</VSnackbar
   >
 </template>

@@ -102,6 +102,10 @@ export class Deck {
     return 3;
   }
 
+  tierColor(): string {
+    return this.tier() === 1 ? '#E53935' : this.tier() === 2 ? '#F4B400' : '#2E7D32';
+  }
+
   gamesWinRate(): string {
     return new Intl.NumberFormat('it-IT', {
       style: 'percent',

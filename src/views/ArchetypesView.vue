@@ -129,7 +129,7 @@ const imageUrl = computed(() => (name: string) => {
             {{ item.gamesPlayed() }}
           </template>
           <template v-slot:[`item.tier`]="{ item }">
-            <img :src="`assets/tier${item.tier()}.svg`" />
+            <VChip :color="item.tierColor()" >T{{ item.tier() }}</VChip>
           </template>
         </VDataTable>
       </VCol>
