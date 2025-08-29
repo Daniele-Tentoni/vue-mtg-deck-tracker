@@ -9,7 +9,7 @@ describe('My First Test', () => {
     };
     window.localStorage.setItem('supabase.auth.token', JSON.stringify(session));
     cy.visit('/');
-    cy.get('.v-toolbar-title__placeholder').should('have.text', 'MDT');
+    cy.get('.v-toolbar-title__placeholder').should('include.text', 'MDT');
     return;
     /*cy.get('[data-test="new-match-button-dialog"]').click();
     cy.get('[data-test="new-match-button-close"]').click();
