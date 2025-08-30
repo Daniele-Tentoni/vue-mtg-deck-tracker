@@ -112,8 +112,9 @@ const imageUrl = computed(() => (name: string) => {
             <VAvatar
               v-if="!mobile"
               :image="imageUrl(item.name)"
-              alt="Fblthp, the Lost"
+              alt="item.name"
               class="me-2"
+              data-test="archetype-image"
             />
             <RouterLink :to="{ name: 'deck-home', params: { format, deck: item.name } }">
               {{ item.name }}
@@ -129,7 +130,7 @@ const imageUrl = computed(() => (name: string) => {
             {{ item.gamesPlayed() }}
           </template>
           <template v-slot:[`item.tier`]="{ item }">
-            <VChip :color="item.tierColor()" >T{{ item.tier() }}</VChip>
+            <VChip :color="item.tierColor()">T{{ item.tier() }}</VChip>
           </template>
         </VDataTable>
       </VCol>

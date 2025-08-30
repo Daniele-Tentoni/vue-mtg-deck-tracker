@@ -1,0 +1,142 @@
+[
+  {
+    "id": 16,
+    "created_at": "2025-08-20T19:10:51.720297+00:00",
+    "creator": "b05a136d-1df5-41d0-a5ab-8b16017d9bd0",
+    "name": "Aura Hexproof",
+    "image": "https://cards.scryfall.io/art_crop/front/1/9/19714d6c-2bfa-4ee0-aa2f-5ccc196bc5d8.jpg?1562900327"
+  },
+  {
+    "id": 12,
+    "created_at": "2025-08-20T18:08:42.290868+00:00",
+    "creator": "b05a136d-1df5-41d0-a5ab-8b16017d9bd0",
+    "name": "Boros Synthesizer",
+    "image": "https://cards.scryfall.io/art_crop/front/2/8/284c4710-4183-4743-9c8b-515cc98cbbb8.jpg?1562815728"
+  },
+  {
+    "id": 17,
+    "created_at": "2025-08-20T19:11:07.627463+00:00",
+    "creator": "b05a136d-1df5-41d0-a5ab-8b16017d9bd0",
+    "name": "Dimir Faeries",
+    "image": null
+  },
+  {
+    "id": 13,
+    "created_at": "2025-08-20T18:09:09.389663+00:00",
+    "creator": "b05a136d-1df5-41d0-a5ab-8b16017d9bd0",
+    "name": "Dimir Terror",
+    "image": null
+  },
+  {
+    "id": 11,
+    "created_at": "2025-08-20T18:08:17.42184+00:00",
+    "creator": "b05a136d-1df5-41d0-a5ab-8b16017d9bd0",
+    "name": "Elves",
+    "image": null
+  },
+  {
+    "id": 9,
+    "created_at": "2025-08-20T18:07:45.771671+00:00",
+    "creator": "b05a136d-1df5-41d0-a5ab-8b16017d9bd0",
+    "name": "Grixis Affinity",
+    "image": "https://cards.scryfall.io/art_crop/front/e/e/eeeef899-a8b5-4416-a208-3bd5a0c7177b.jpg?1562162483"
+  },
+  {
+    "id": 15,
+    "created_at": "2025-08-20T18:09:43.443595+00:00",
+    "creator": "b05a136d-1df5-41d0-a5ab-8b16017d9bd0",
+    "name": "Gruul Aggro",
+    "image": null
+  },
+  {
+    "id": 14,
+    "created_at": "2025-08-20T18:09:25.749854+00:00",
+    "creator": "b05a136d-1df5-41d0-a5ab-8b16017d9bd0",
+    "name": "Gruul Ponza",
+    "image": "https://cards.scryfall.io/art_crop/front/0/0/00ae906b-2c4d-48e9-9f2d-217777e22292.jpg?1562895150"
+  },
+  {
+    "id": 10,
+    "created_at": "2025-08-20T18:08:03.716281+00:00",
+    "creator": "b05a136d-1df5-41d0-a5ab-8b16017d9bd0",
+    "name": "High Tide",
+    "image": "https://cards.scryfall.io/art_crop/front/c/2/c2813677-91cc-4c8b-a8ea-403fa776c9f0.jpg?1562931354"
+  },
+  {
+    "id": 18,
+    "created_at": "2025-08-20T19:11:20.585532+00:00",
+    "creator": "b05a136d-1df5-41d0-a5ab-8b16017d9bd0",
+    "name": "Izzet Faeries",
+    "image": null
+  },
+  {
+    "id": 21,
+    "created_at": "2025-08-28T22:42:10.042355+00:00",
+    "creator": "b05a136d-1df5-41d0-a5ab-8b16017d9bd0",
+    "name": "Jeskai Ephemerate",
+    "image": "https://cards.scryfall.io/art_crop/front/2/d/2da5f3f8-5eef-498f-ba2c-2f3fbc3745aa.jpg?1562201088"
+  },
+  {
+    "id": 23,
+    "created_at": "2025-08-28T23:11:38.841935+00:00",
+    "creator": "b05a136d-1df5-41d0-a5ab-8b16017d9bd0",
+    "name": "Jund Wildfire",
+    "image": "https://cards.scryfall.io/art_crop/front/4/9/492d77e5-acc6-41b8-8930-f39d69234919.jpg?1604196948"
+  },
+  {
+    "id": 1,
+    "created_at": "2025-08-18T22:10:39.231537+00:00",
+    "creator": "b05a136d-1df5-41d0-a5ab-8b16017d9bd0",
+    "name": "Mono Black Sacrifice",
+    "image": "https://cards.scryfall.io/art_crop/front/0/a/0a19da90-880e-4eca-8cf7-6d7baf090d53.jpg?1562201576"
+  },
+  {
+    "id": 19,
+    "created_at": "2025-08-20T19:11:33.949303+00:00",
+    "creator": "b05a136d-1df5-41d0-a5ab-8b16017d9bd0",
+    "name": "Mono Blue Faeries",
+    "image": "https://cards.scryfall.io/art_crop/front/d/1/d1fcfeb4-1818-4e08-be4c-27b8a9dc12e6.jpg?1562201375"
+  },
+  {
+    "id": 3,
+    "created_at": "2025-08-20T18:05:30.047273+00:00",
+    "creator": "b05a136d-1df5-41d0-a5ab-8b16017d9bd0",
+    "name": "Mono Blue Terror",
+    "image": "https://cards.scryfall.io/art_crop/front/2/5/2569d4f3-55ed-4f99-9592-34c7df0aab72.jpg?1730489226"
+  },
+  {
+    "id": 7,
+    "created_at": "2025-08-20T18:07:15.745932+00:00",
+    "creator": "b05a136d-1df5-41d0-a5ab-8b16017d9bd0",
+    "name": "Mono Red Madness",
+    "image": null
+  },
+  {
+    "id": 6,
+    "created_at": "2025-08-20T18:06:57.041488+00:00",
+    "creator": "b05a136d-1df5-41d0-a5ab-8b16017d9bd0",
+    "name": "Mono Red Pingers",
+    "image": null
+  },
+  {
+    "id": 5,
+    "created_at": "2025-08-20T18:06:42.815075+00:00",
+    "creator": "b05a136d-1df5-41d0-a5ab-8b16017d9bd0",
+    "name": "Mono Red Synthesizer",
+    "image": null
+  },
+  {
+    "id": 8,
+    "created_at": "2025-08-20T18:07:29.908621+00:00",
+    "creator": "b05a136d-1df5-41d0-a5ab-8b16017d9bd0",
+    "name": "Rakdos Madness",
+    "image": "https://cards.scryfall.io/art_crop/front/8/3/836ae711-e62f-49ec-850e-d25f6fd2a4d4.jpg?1626095627"
+  },
+  {
+    "id": 4,
+    "created_at": "2025-08-20T18:06:18.242348+00:00",
+    "creator": "b05a136d-1df5-41d0-a5ab-8b16017d9bd0",
+    "name": "White Weenie",
+    "image": "https://cards.scryfall.io/art_crop/front/0/8/08a5007f-06a0-40fa-a252-c38baa6b5c6f.jpg?1736467608"
+  }
+]

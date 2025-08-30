@@ -1,0 +1,58 @@
+[
+  {
+    "id": 13,
+    "created_at": "2025-08-28T14:00:41.476943+00:00",
+    "game_one_win": 0,
+    "side_one_win": 0,
+    "side_second_win": null,
+    "side_in": null,
+    "side_out": null,
+    "note": "Delete me",
+    "creator": "b05a136d-1df5-41d0-a5ab-8b16017d9bd0",
+    "tournament_id": 1,
+    "my_archetype": { "id": 4, "name": "White Weenie" },
+    "their_archetype": { "id": 9, "name": "Grixis Affinity" }
+  },
+  {
+    "id": 14,
+    "created_at": "2025-08-28T22:57:20.312578+00:00",
+    "game_one_win": 1,
+    "side_one_win": 1,
+    "side_second_win": 0,
+    "side_in": null,
+    "side_out": null,
+    "note": null,
+    "creator": "b05a136d-1df5-41d0-a5ab-8b16017d9bd0",
+    "tournament_id": 1,
+    "my_archetype": { "id": 17, "name": "Dimir Faeries" },
+    "their_archetype": { "id": 16, "name": "Aura Hexproof" }
+  },
+  {
+    "id": 15,
+    "created_at": "2025-08-28T23:47:16.863413+00:00",
+    "game_one_win": 0,
+    "side_one_win": 0,
+    "side_second_win": null,
+    "side_in": null,
+    "side_out": null,
+    "note": "Easy win with 3 Dust to Dust in game 2.",
+    "creator": "b05a136d-1df5-41d0-a5ab-8b16017d9bd0",
+    "tournament_id": 1,
+    "my_archetype": { "id": 4, "name": "White Weenie" },
+    "their_archetype": { "id": 9, "name": "Grixis Affinity" }
+  },
+  {
+    "id": 16,
+    "created_at": "2025-08-29T18:17:53.175765+00:00",
+    "game_one_win": 0,
+    "side_one_win": 1,
+    "side_second_win": 0,
+    "side_in": null,
+    "side_out": null,
+    "note": null,
+    "creator": "b05a136d-1df5-41d0-a5ab-8b16017d9bd0",
+    "tournament_id": 1,
+    "my_archetype": { "id": 13, "name": "Dimir Terror" },
+    "their_archetype": { "id": 11, "name": "Elves" }
+  }
+]

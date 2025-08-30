@@ -62,26 +62,33 @@ const profileUrl = ref('');
         <VMenu>
           <template v-slot:activator="{ props }">
             <VSkeletonLoader :loading type="avatar">
-              <VAvatar v-bind="props" class="me-2">
+              <VAvatar v-bind="props" class="me-2" data-test="user-menu">
                 <img v-if="authenticated && avatarUrl" :src="avatarUrl" alt="Avatar" />
                 <VIcon v-else>fa fa-user</VIcon>
               </VAvatar>
             </VSkeletonLoader>
           </template>
           <VList v-if="authenticated">
-            <VListItem loading="true">{{ userId }}</VListItem>
+            <VListItem>{{ userId }}</VListItem>
             <!--<VListItem @click="logout">Account</VListItem>-->
             <VListItem append-icon="fas fa-arrow-up-right-from-square">
               <a :href="profileUrl" target="_blank" class="text-blue-500 underline"> Gravatar </a>
             </VListItem>
             <VDivider class="my-2"></VDivider>
-            <VListItem @click="logout" append-icon="fas fa-arrow-right-from-bracket"
+            <VListItem
+              @click="logout"
+              append-icon="fas fa-arrow-right-from-bracket"
+              data-test="user-logout"
               >Logout</VListItem
             >
           </VList>
           <VList v-else>
-            <VListItem @click="login" append-icon="fas fa-right-to-bracket">Login</VListItem>
-            <VListItem @click="register" append-icon="fas fa-user-plus">Register</VListItem>
+            <VListItem @click="login" append-icon="fas fa-right-to-bracket" data-test="user-login"
+              >Login</VListItem
+            >
+            <VListItem @click="register" append-icon="fas fa-user-plus" data-test="user-register"
+              >Register</VListItem
+            >
           </VList>
         </VMenu>
       </template>

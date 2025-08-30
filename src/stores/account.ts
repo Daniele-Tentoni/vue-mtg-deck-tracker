@@ -24,6 +24,7 @@ export const useAccount = defineStore('account', () => {
   }
 
   async function logout() {
+    console.log('Executing logout from the application');
     await supabase.auth.signOut();
   }
 
