@@ -28,8 +28,6 @@ const MatchWithArchetypeQueryString = `
 export const useDeck = defineStore('match', () => {
   const matches = ref<MatchClass[]>([]);
 
-  const archetypes = ref<Archetype[]>([]);
-
   async function createMatchAsync(newMatch: MatchInsert) {
     const { data, error } = (await supabase
       .from('matches')
@@ -55,20 +53,6 @@ export const useDeck = defineStore('match', () => {
   }
 
   async function loadAsync() {
-    const user = await supabase.auth.getUser();
-    if (!user.data.user) {
-      console.error('Missing user authenticated');
-    }
-
-    // TODO: Move this const in the dedicated store.
-    const remoteArchetypes = await supabase
-      .from('archetypes')
-      .select('*')
-      .order('name', { ascending: true });
-    if (remoteArchetypes.data) {
-      archetypes.value = remoteArchetypes.data;
-    }
-
     const { data } = (await supabase
       .from('matches')
       .select(MatchWithArchetypeQueryString)) as unknown as { data: MatchWithArchetypeType[] };
@@ -78,5 +62,5 @@ export const useDeck = defineStore('match', () => {
     }
   }
 
-  return { matches, archetypes, createMatchAsync, loadAsync };
+  return { matches, createMatchAsync, loadAsync };
 });

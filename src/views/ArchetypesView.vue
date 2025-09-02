@@ -3,6 +3,7 @@ import NewMatchDialog from '@/components/NewMatchDialog.vue';
 import WinrateTooltip from '@/components/WinrateTooltip.vue';
 import { Deck, isArch } from '@/models/Deck';
 import { useAccount } from '@/stores/account';
+import { useArchetype } from '@/stores/archetype';
 import { useDeck } from '@/stores/matches';
 import { computed, onMounted, ref } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';
@@ -73,6 +74,7 @@ onMounted(async () => {
   try {
     loading.value = true;
     await decks.loadAsync();
+    await archetypeStore.loadAsync();
   } finally {
     loading.value = false;
   }
@@ -82,8 +84,10 @@ const isDev = import.meta.env.DEV;
 
 const { mobile } = useDisplay();
 
+const archetypeStore = useArchetype();
+
 const imageUrl = computed(() => (name: string) => {
-  const arc = decks.archetypes.find((f) => f.name === name);
+  const arc = archetypeStore.archetypes.find((f) => f.name === name);
   if (arc?.image) {
     return arc.image;
   }
@@ -109,13 +113,9 @@ const imageUrl = computed(() => (name: string) => {
             </VRow>
           </template>
           <template v-slot:[`item.name`]="{ item }">
-            <VAvatar
-              v-if="!mobile"
-              :image="imageUrl(item.name)"
-              alt="item.name"
-              class="me-2"
-              data-test="archetype-image"
-            />
+            <VAvatar v-if="!mobile" class="me-2" data-test="archetype-image"
+              ><VImg :src="imageUrl(item.name)" :alt="item.name"></VImg
+            ></VAvatar>
             <RouterLink :to="{ name: 'deck-home', params: { format, deck: item.name } }">
               {{ item.name }}
             </RouterLink>
