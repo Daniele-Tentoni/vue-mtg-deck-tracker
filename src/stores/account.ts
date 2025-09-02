@@ -18,7 +18,7 @@ export const useAccount = defineStore('account', () => {
       });
     }
 
-    if (error) {
+    if (error?.name !== 'AuthSessionMissingError') {
       console.error(error);
     }
   }
