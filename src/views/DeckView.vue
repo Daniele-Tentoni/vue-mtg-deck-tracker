@@ -4,18 +4,14 @@
       <VCol>
         {{ deck }}
       </VCol>
+      <VSpacer></VSpacer>
+      <VCol cols="auto" v-if="account.authenticated">
+        <NewMatchDialog :my="myArchetype?.id"></NewMatchDialog>
+      </VCol>
     </VRow>
     <VRow>
       <VCol>
         <VDataTable :headers :items show-expand :loading>
-          <template #top>
-            <VRow>
-              <VSpacer></VSpacer>
-              <VCol cols="auto" v-if="account.authenticated">
-                <NewMatchDialog :my="myArchetype?.id"></NewMatchDialog>
-              </VCol>
-            </VRow>
-          </template>
           <template v-slot:[`item.my_archetype`]="{ item }">
             {{ isArch(item.my_archetype) ? item.my_archetype.name : '' }}
           </template>
