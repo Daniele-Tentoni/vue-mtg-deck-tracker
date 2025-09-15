@@ -27,8 +27,8 @@
             <VCol>
               <VAutocomplete
                 v-model="yourDeck"
-                :items="archetypes"
-                :disabled="loading"
+                :items="archetypes.archetypes"
+                :disabled="loading || loadingArchetypes"
                 label="Your deck"
                 data-test="your-deck-field"
                 item-value="id"
@@ -42,8 +42,8 @@
             <v-col>
               <VAutocomplete
                 v-model="theirDeck"
-                :items="archetypes"
-                :disabled="loading"
+                :items="archetypes.archetypes"
+                :disabled="loading || loadingArchetypes"
                 label="Their deck"
                 data-test="their-deck-field"
                 item-value="id"
@@ -155,6 +155,7 @@ import { computed, onMounted, ref, watch, type Ref } from 'vue';
 import { useDeck } from '@/stores/matches';
 import CloseButton from '@/components/dialogs/CloseButton.vue';
 import MatchButtonGroup from './MatchButtonGroup.vue';
+import { useArchetype } from '@/stores/archetype';
 
 const validMatch = computed(() => yourDeck.value && theirDeck.value);
 const shouldPlayThird = computed(
@@ -263,18 +264,22 @@ function create(isActive: Ref<boolean>) {
   }
 }
 
-const loading = ref(false);
-
-const archetypes = computed(() => {
-  const unsorted = matches.archetypes;
-  const sorted = unsorted.sort();
-  return sorted;
-});
+const loadingArchetypes = ref(false);
+const archetypes = useArchetype();
 
 const yourDeckMessage = computed(() => `Your deck is ${yourDeck.value}`);
 const theirDeckMessage = computed(() => `Their deck is ${theirDeck.value}`);
 
+const loading = ref(false);
+
 onMounted(async () => {
+  try {
+    loadingArchetypes.value = true;
+    await archetypes.loadAsync();
+  } finally {
+    loadingArchetypes.value = false;
+  }
+
   try {
     loading.value = true;
     await matches.loadAsync();

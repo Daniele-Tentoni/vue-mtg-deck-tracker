@@ -6,6 +6,7 @@
     class="mx-auto"
     variant="flat"
     color="success"
+    :data-test="`match-button-group-${p.num}`"
   >
     <div>
       <VTooltip :text="`Player 1 have won the game`">
@@ -13,7 +14,7 @@
           <VBtn
             v-bind="props"
             :icon="`fas fa-${p.num}`"
-            :data-test="`match-button-group-0-${p.num}`"
+            :data-test="`match-button-group-${p.num}-button-0`"
             class="pa-2"
           ></VBtn>
         </template>
@@ -23,7 +24,7 @@
           <VBtn
             v-bind="props"
             :icon="`fas fa-${p.num}`"
-            :data-test="`match-button-group-1-${p.num}`"
+            :data-test="`match-button-group-${p.num}-button-1`"
             class="pa-2"
           ></VBtn>
         </template>

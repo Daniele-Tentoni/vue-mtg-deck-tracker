@@ -6,7 +6,7 @@
         icon="fa fa-close"
         @click="emits('close')"
         color="error"
-        data-test="new-match-button-close"
+        data-test="close-button"
         variant="text"
       ></VBtn>
     </template>

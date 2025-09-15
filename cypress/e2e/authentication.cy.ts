@@ -4,16 +4,19 @@ describe('Users could authenticate', () => {
     cy.get('[data-test="user-menu"]').click();
     cy.get('[data-test="user-register"]').click();
     cy.contains('div', 'Register');
+    cy.get('[data-test="close-button"]').click();
   });
 
-  it('using an existing account', () => {
+  it('login using an existing account', () => {
     cy.visit('/');
     cy.get('[data-test="user-menu"]').click();
     cy.contains('div', 'Login');
+    cy.get('[data-test="close-button"]').click();
   });
 
   it('logout', () => {
-    cy.mockAuth('utente@test.com');
+    cy.authenticated('id', 'id@test.com');
+    cy.mockAuth('id', 'utente@test.com');
     cy.mockSupabase('matches', 'matches.json');
     cy.mockSupabase('archetypes', 'archetypes.json');
     cy.visit('/');

@@ -2,12 +2,9 @@
 
 describe('The app root url', () => {
   it('should load winrate for pauper and show images on laptop', () => {
-    const session = {
-      access_token: 'IL_TUO_ACCESS_TOKEN',
-      refresh_token: 'IL_TUO_REFRESH_TOKEN',
-      user: { id: 'uuid-utente', email: 'utente@test.com' },
-    };
-    window.localStorage.setItem('supabase.auth.token', JSON.stringify(session));
+    cy.authenticated('id', 'id@test.com');
+    cy.mockAuth('id', 'id@test.com');
+    cy.mockSupabase('archetypes', 'archetypes.json');
     cy.mockSupabase('matches', 'matches.json');
 
     cy.intercept('GET', 'https://cards.scryfall.io/**', {
@@ -25,5 +22,52 @@ describe('The app root url', () => {
 
     cy.viewport('iphone-se2');
     cy.get('[data-testid="archetype-image-White Weenie"]').should('not.exist');
+  });
+
+  it('upload a new match result', () => {
+    cy.authenticated('id', 'id@test.com');
+    cy.mockAuth('id', 'id@test.com');
+    cy.mockSupabase('archetypes', 'archetypes.json');
+    cy.mockSupabase('matches', 'matches.json');
+
+    cy.intercept('GET', 'https://cards.scryfall.io/**', {
+      statusCode: 200,
+      headers: { 'Content-Type': 'image/png' },
+      fixture: 'war-50-fblthp-the-lost.jpg',
+    }).as('img');
+    cy.visit('/');
+
+    cy.get('[data-test="new-match-button-dialog"]').click();
+    cy.get('[data-test="close-button"]').click();
+    cy.get('[data-test="new-match-button-dialog"]').click();
+    cy.get('[data-test="your-deck-field"]').type('Mono Blue Faeries{downArrow}{enter}');
+    cy.get('[data-test="their-deck-field"]').type('Jund Wildfire{downArrow}{enter}');
+    cy.get('[data-test="match-button-group-0-button-0"]').click();
+    cy.get('[data-test="match-button-group-1-button-0"]').click();
+    cy.get('[data-test="new-match-resume-text"]').should('include.text', 'Player');
+    cy.get('[data-test="match-button-group-2"] > div > button').should('be.disabled');
+    cy.get('[data-test="match-button-group-1-button-1"]').click();
+    cy.get('[data-test="match-button-group-2-button-1"]').click();
+    cy.get('[data-test="new-match-resume-text"]').should('include.text', 'Player');
+    cy.get('[data-test="new-match-create-action"]').click();
+    cy.get('[data-test="close-button"]').should('not.exist');
+  });
+
+  it('open an archetype page', () => {
+    cy.authenticated('id', 'id@test.com');
+    cy.mockAuth('id', 'id@test.com');
+    cy.mockSupabase('archetypes', 'archetypes.json');
+    cy.mockSupabase('matches', 'matches.json');
+
+    cy.intercept('GET', 'https://cards.scryfall.io/**', {
+      statusCode: 200,
+      headers: { 'Content-Type': 'image/png' },
+      fixture: 'war-50-fblthp-the-lost.jpg',
+    }).as('img');
+    cy.visit('/');
+
+    const deck = 'White Weenie';
+    cy.contains('a', deck).click();
+    cy.url().should('include', encodeURIComponent(deck));
   });
 });
