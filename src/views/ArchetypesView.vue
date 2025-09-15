@@ -100,18 +100,14 @@ const imageUrl = computed(() => (name: string) => {
   <VContainer fluid>
     <VRow>
       <VCol> {{ format }} win rates </VCol>
+      <VSpacer></VSpacer>
+      <VCol cols="auto" v-if="account.authenticated">
+        <NewMatchDialog></NewMatchDialog>
+      </VCol>
     </VRow>
     <VRow>
       <VCol>
         <VDataTable :headers :items item-value="id" :loading v-model:sort-by="sortBy">
-          <template #top>
-            <VRow>
-              <VSpacer></VSpacer>
-              <VCol cols="auto" v-if="account.authenticated">
-                <NewMatchDialog></NewMatchDialog>
-              </VCol>
-            </VRow>
-          </template>
           <template v-slot:[`item.name`]="{ item }">
             <VAvatar v-if="!mobile" class="me-2" data-test="archetype-image"
               ><VImg :src="imageUrl(item.name)" :alt="item.name"></VImg
@@ -137,6 +133,21 @@ const imageUrl = computed(() => (name: string) => {
     </VRow>
     <VRow>
       <VCol cols="12" md="6">
+        <p class="text-h6">I'm looking for more data!</p>
+        <p>
+          I need more data to be more accurated calculating win rates and other metrics. You can
+          contact me to help growing the database sending me yor results or registering and
+          uploading them.
+        </p>
+      </VCol>
+      <VCol cols="12" md="6">
+        <p class="text-h6">How you can contribute</p>
+        <p>
+          You can open an Issue or submit a Pull request to help me developing this site, or you can
+          create now an account and start submit your game data.
+        </p>
+      </VCol>
+      <VCol cols="12" md="6">
         <p class="text-h6">How I calculate win rates</p>
         <p>
           Number of game one won + number of first side game won + number of second side won / total
@@ -151,13 +162,6 @@ const imageUrl = computed(() => (name: string) => {
           An archetype with winrate above the 55% will be marked as Tier 1, below 55% will be a Tier
           2, below 50% a Tier 3. Those indicates strong decks, good decks and others. No other
           tiers, no middle tiers.
-        </p>
-      </VCol>
-      <VCol cols="12" md="6">
-        <p class="text-h6">How you can contribute</p>
-        <p>
-          You can open an Issue or submit a Pull request to help me developing this site, or you can
-          create now an account and start submit your game data.
         </p>
       </VCol>
     </VRow>
