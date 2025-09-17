@@ -41,6 +41,7 @@ declare global {
     interface Chainable {
       authenticated(id: string, email: string): Chainable<void>;
       mockAuth(id: string, email: string): Chainable<void>;
+      mockIdentity(): Chainable<void>;
       /**
        * Mocka una tabella Supabase (GET /rest/v1/<table>)
        * @param table Nome tabella
@@ -140,6 +141,17 @@ Cypress.Commands.add('mockSupabase', (table: string, fixture: string) => {
     statusCode: 200,
     fixture,
   }).as(`supabase-${table}`);
+});
+
+Cypress.Commands.add('mockIdentity', () => {
+  cy.intercept(
+    'DELETE',
+    '/auth/v1/user/identities*',
+    {
+      statusCode: 200,
+      body: { data: {} },
+    },
+  ).as('supabase-identity-delete');
 });
 
 export {};

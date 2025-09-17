@@ -29,6 +29,21 @@ const router = createRouter({
       ],
     },
     {
+      path: "/users",
+      children: [
+        {
+          path: "me",
+          name: "me",
+          component: () => import("@/views/users/MeView.vue"),
+        },
+        {
+          path: ":id",
+          name: "user-profile",
+          component: () => import("@/views/users/UserView.vue"),
+        }
+      ]
+    },
+    {
       path: '/:pathMatch(.*)*',
       name: '404',
       component: NotFoundView,

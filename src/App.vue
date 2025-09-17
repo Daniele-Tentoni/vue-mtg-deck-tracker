@@ -69,7 +69,7 @@ const profileUrl = ref('');
             </VSkeletonLoader>
           </template>
           <VList v-if="authenticated">
-            <VListItem>{{ userId }}</VListItem>
+            <VListItem link to="/users/me" data-test="user-me">{{ userId }}</VListItem>
             <!--<VListItem @click="logout">Account</VListItem>-->
             <VListItem append-icon="fas fa-arrow-up-right-from-square">
               <a :href="profileUrl" target="_blank" class="text-blue-500 underline"> Gravatar </a>
