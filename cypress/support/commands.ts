@@ -105,12 +105,13 @@ Cypress.Commands.add(
           },
         }),
       );
-      // https://awvhzmqrqxrqlsohpsqr.supabase.co/auth/v1/logout?scope=global
-      cy.intercept('POST', '/auth/v1/logout*', (req) => {
-        window.localStorage.removeItem('sb-awvhzmqrqxrqlsohpsqr-auth-token');
-        req.reply({ statusCode: 200 });
-      }).as('supabase-logout');
     });
+
+    // https://awvhzmqrqxrqlsohpsqr.supabase.co/auth/v1/logout?scope=global
+    cy.intercept('POST', '/auth/v1/logout*', (req) => {
+      window.localStorage.removeItem('sb-awvhzmqrqxrqlsohpsqr-auth-token');
+      req.reply({ statusCode: 200 });
+    }).as('supabase-logout');
   },
 );
 
