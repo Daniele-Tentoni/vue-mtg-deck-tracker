@@ -28,20 +28,37 @@ const router = createRouter({
         },
       ],
     },
+    /*{
+      name: 'tournaments',
+      path: '/tournaments',
+      component: () => import('@/views/tournament/TournamentsView.vue'),
+    },*/
     {
-      path: "/users",
+      path: '/users',
       children: [
         {
-          path: "me",
-          name: "me",
-          component: () => import("@/views/users/MeView.vue"),
+          path: 'me',
+          name: 'me',
+          component: () => import('@/views/users/MeView.vue'),
+          children: [
+            {
+              path: 'decks',
+              name: 'my-decks',
+              component: () => import('@/views/users/MyDecksView.vue'),
+            },
+            {
+              path: 'identities',
+              name: 'my-identities',
+              component: () => import('@/views/users/MyIdentitiesView.vue'),
+            },
+          ],
         },
         {
-          path: ":id",
-          name: "user-profile",
-          component: () => import("@/views/users/UserView.vue"),
-        }
-      ]
+          path: ':id',
+          name: 'user-profile',
+          component: () => import('@/views/users/UserView.vue'),
+        },
+      ],
     },
     {
       path: '/:pathMatch(.*)*',

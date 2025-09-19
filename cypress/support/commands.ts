@@ -145,8 +145,16 @@ Cypress.Commands.add('mockSupabase', (table: string, fixture: string) => {
 
 Cypress.Commands.add('mockIdentity', () => {
   cy.intercept(
+    'GET',
+    '/auth/v1/user/identities/*',
+    {
+      statusCode: 200,
+      body: { data: { provider: "Twitch", url: "https://twitch.com" } },
+    },
+  ).as('supabase-identity-get');
+  cy.intercept(
     'DELETE',
-    '/auth/v1/user/identities*',
+    '/auth/v1/user/identities/*',
     {
       statusCode: 200,
       body: { data: {} },

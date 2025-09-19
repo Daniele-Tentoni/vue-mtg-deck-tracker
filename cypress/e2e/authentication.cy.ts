@@ -13,6 +13,12 @@ describe('Users could authenticate', () => {
     cy.get('[data-test="user-login"]').click();
     cy.contains('div', 'Login');
     cy.get('[data-test="close-button"]').click();
+    cy.get('[data-test="user-menu"]').click();
+    cy.get('[data-test="user-login"]').click();
+    const notValidEmail = '1234';
+    cy.get('input[name="email"]').type(notValidEmail);
+    cy.contains('button', 'Login').click();
+    cy.contains('div', 'Not valid email');
   });
 
   it('logout', () => {

@@ -25,8 +25,11 @@
               <VTextField
                 v-model="email"
                 type="email"
+                name="email"
                 placeholder="Email"
                 :error-messages="loginError"
+                @keydown.enter="login"
+                clearable
               ></VTextField>
             </VCol>
           </VRow>
@@ -58,6 +61,12 @@ const loginError = ref('');
 async function login() {
   try {
     loading.value = true;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email.value)) {
+      loginError.value = 'Not valid email';
+      return;
+    }
+
     const { error } = await supabase.auth.signInWithOtp({
       email: email.value,
       options: {

@@ -35,3 +35,6 @@ coverage
 *.tfstate.*
 *.tfstate
 *.tfvars
+
+.temp/
+.env
