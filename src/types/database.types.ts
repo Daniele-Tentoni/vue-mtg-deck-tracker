@@ -126,6 +126,30 @@ export type Database = {
         };
         Relationships: [];
       };
+      user_tokens: {
+        Row: {
+          access_token: string;
+          created_at: string;
+          provider: string;
+          refresh_token: string | null;
+          user_id: string;
+        };
+        Insert: {
+          access_token: string;
+          created_at?: string;
+          provider: string;
+          refresh_token?: string | null;
+          user_id?: string;
+        };
+        Update: {
+          access_token?: string;
+          created_at?: string;
+          provider?: string;
+          refresh_token?: string | null;
+          user_id?: string;
+        };
+        Relationships: [];
+      };
     };
     Views: {
       [_ in never]: never;

@@ -2,7 +2,7 @@
 import { computed, onMounted, ref } from 'vue';
 import LoginDialog from './components/dialogs/LoginDialog.vue';
 import RegisterDialog from './components/dialogs/RegisterDialog.vue';
-import { RouterView } from 'vue-router';
+import { RouterView, useRouter } from 'vue-router';
 import { useAccount } from './stores/account';
 import { useGravatar } from './composables/useGravatar';
 
@@ -43,8 +43,10 @@ function register() {
   registerVisible.value = true;
 }
 
+const router = useRouter();
 async function logout() {
   await account.logout();
+  router.push('/');
 }
 
 const avatarUrl = ref('');
@@ -107,7 +109,8 @@ const profileUrl = ref('');
 
     <VNavigationDrawer v-model="drawer" temporary>
       <VListItem title="Home" prepend-icon="fa fa-home" link to="/" />
-      <VListItem title="Pauper Archetypes" prepend-icon="fa fa-home" link to="/pauper" />
+      <VListItem title="Archetypes" prepend-icon="fa fa-home" link to="/pauper" />
+      <VListItem title="Tournaments" prepend-icon="fa fa-home" link to="/tournaments" />
       <VListItem
         prepend-icon="fab fa-github"
         link

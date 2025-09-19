@@ -27,10 +27,24 @@
                 <VRow>
                   <VCol>
                     <VAutocomplete
-                      :items="selectableProviders"
+                      :items="providerStore.selectable"
                       v-model="provider"
                       data-test="provider-selector"
-                    ></VAutocomplete>
+                    >
+                      <template v-slot:item="{ props, item }">
+                        <VListItem v-bind="props">
+                          <template #prepend>
+                            <VTooltip :text="icons[item.raw] ? item.raw : 'Missing icon'">
+                              <template #activator="{ props: tooltip }">
+                                <VAvatar v-bind="tooltip">
+                                  <VIcon>{{ icons[item.raw] ?? 'fas fa-ghost' }}</VIcon>
+                                </VAvatar>
+                              </template>
+                            </VTooltip>
+                          </template>
+                        </VListItem>
+                      </template>
+                    </VAutocomplete>
                   </VCol>
                 </VRow>
               </VCardText>
@@ -56,9 +70,12 @@
       </VCol>
     </VRow>
     <VRow>
-      <VDataTable :items :loading :headers>
+      <VDataTable :items="providerStore.visibles" :loading :headers>
         <template #[`item.actions`]="{ item }">
-          <VBtn @click="unlink(item)" prepend-icon="fas fa-link-slash" data-test="unlink-button"
+          <VBtn
+            @click="providerStore.unlink(item)"
+            prepend-icon="fas fa-link-slash"
+            data-test="unlink-button"
             >Unlink</VBtn
           >
         </template>
@@ -69,11 +86,15 @@
 
 <script setup lang="ts">
 import { supabase } from '@/services/supabaseService';
-import type { UserIdentity } from '@supabase/supabase-js';
 import { computed, type Ref, onMounted, ref } from 'vue';
 import CloseButton from '@/components/dialogs/CloseButton.vue';
+import { useProviders } from '@/stores/provider';
 
 const loading = ref(false);
+
+const icons: { [id: string]: string } = {
+  Twitch: 'fab fa-twitch',
+};
 
 const headers = computed(() => [
   { title: 'Provider', key: 'provider' },
@@ -81,16 +102,10 @@ const headers = computed(() => [
   { title: 'Actions', key: 'actions', width: '1%' },
 ]);
 
-const providers = ['Challonge', 'Twitch'];
-const selectableProviders = computed(() =>
-  providers.filter((f) => !items.value.map((m) => m.provider).includes(f)),
-);
-
 async function link(isActive: Ref<boolean>) {
   if (provider.value === 'Challonge') {
-    const { data } = await supabase.auth.getSession();
-    const accessToken = data.session?.access_token;
-    if (!accessToken) return;
+    const state = crypto.randomUUID();
+    localStorage.setItem('state', state);
 
     const redirectUri = import.meta.env.VITE_CHALLONGE_REDIRECT_URI;
     const clientId = import.meta.env.VITE_CHALLONGE_CLIENT_ID;
@@ -101,8 +116,8 @@ async function link(isActive: Ref<boolean>) {
         client_id: clientId,
         redirect_uri: redirectUri,
         response_type: 'code',
-        scope: 'me tournaments:read tournaments:write',
-        state: accessToken, // serve per legare al Supabase user
+        scope: 'me',
+        state,
       });
 
     window.location.href = authUrl;
@@ -131,73 +146,69 @@ async function link(isActive: Ref<boolean>) {
   isActive.value = false;
 }
 
-async function unlink(item: UserIdentity) {
-  const { data: identities, error } = await supabase.auth.getUserIdentities();
-
-  if (error) {
-    alert('Something went wrong');
-    return;
-  }
-
-  if (identities?.identities) {
-    const identity = identities.identities.find((f) => f.provider === item.provider);
-    if (identity) {
-      const { data, error } = await supabase.auth.unlinkIdentity(identity);
-      if (error) {
-        if (error.code === 'single_identity_not_deletable') {
-          alert(error.message);
-          return;
-        }
-
-        alert("I can't unlink your identity");
-      }
-
-      if (data) {
-        alert('Unlink correctly');
-        await update();
-        return;
-      }
-
-      alert("Why you don't have data?");
-    }
-  }
-
-  alert('I have not found identities');
-}
-
-const items = ref<UserIdentity[]>([
-  {
-    provider: 'Challonge',
-    created_at: '2023-11-24T08:05:22.835172Z',
-    last_sign_in_at: '2023-11-24T08:05:22.835172Z',
-    id: '1234',
-    identity_id: '1234',
-    user_id: '1234',
-    identity_data: {
-      avatar_url: 'https://cdn.example.com/avatar.jpg',
-      email: 'example@example.com',
-      full_name: 'Example User',
-      id: '1234',
-      provider: 'Challonge',
-      user_name: 'example_user',
-    },
-  },
-]);
-
 const provider = ref();
 
-async function update() {
-  const { data: identities, error } = await supabase.auth.getUserIdentities();
-  if (error) {
-    alert("I can't fetch updated identities");
-    return;
-  }
+const providerStore = useProviders();
 
-  items.value = identities?.identities || [];
+async function update() {
+  await providerStore.loadAsync();
   provider.value = null;
 }
 
 onMounted(async () => {
-  await update();
+  try {
+    loading.value = true;
+    // Manage callback.
+    await callback();
+    // Fetch initial data.
+    await update();
+  } finally {
+    loading.value = false;
+  }
 });
+
+async function callback() {
+  const url = new URL(window.location.href);
+  const code = url.searchParams.get('code');
+  if (!code) {
+    console.info('No code to verify');
+    return;
+  }
+
+  const state = url.searchParams.get('state');
+  const localState = localStorage.getItem('state');
+  if (!localState || state !== localState) {
+    alert("Can't get state from local storage");
+    return;
+  }
+
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+  if (!session) {
+    alert('Utente non loggato');
+    return;
+  }
+
+  console.log('Ready to call supabase');
+  const supaUrl = import.meta.env.VITE_SUPABASE_URL;
+
+  try {
+    const params = new URLSearchParams();
+    params.set('code', code);
+    params.set('state', state);
+    const res = await fetch(`${supaUrl}/functions/v1/challonge-auth?${params}`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${session.access_token}`,
+      },
+    });
+
+    const { data, error } = await res.json();
+    if (data) console.warn(data);
+    if (error) console.warn(error);
+  } catch (ex) {
+    console.error('Whatt', ex);
+  }
+}
 </script>

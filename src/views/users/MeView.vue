@@ -6,7 +6,9 @@
     <VRow>
       <VCol cols="12" md="auto">
         <VList>
-          <VListItem link to="/users/me/identities" prepend-icon="fas fa-users-rectangle">Identities</VListItem>
+          <VListItem link to="/users/me/identities" prepend-icon="fas fa-users-rectangle"
+            >Identities</VListItem
+          >
         </VList>
       </VCol>
       <VCol>
