@@ -24,8 +24,6 @@ import { onMounted } from 'vue';
 
 const isDev = import.meta.env.DEV;
 
-const redirectTo = import.meta.env.VITE_SUPABASE_REDIRECT;
-
 const account = useAccount();
 
 const { challongeUser, loginWithChallonge, handleChallongeCallback, fetchChallongeUser } =

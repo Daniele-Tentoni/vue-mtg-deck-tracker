@@ -17,7 +17,9 @@ export function corsHeaders(origin: string | null) {
 }
 
 /**
- * Recupera l’utente autenticato dal JWT Supabase
+ * Retrieve user from Authorization header in the request.
+ * This requires the Supabase JWT to be passed in the Authorization header of the Request as a Bearer token.
+ * To work, the supabase client must be instantiated with the Service Role key.
  */
 export async function getUserFromRequest(req: Request) {
   const authHeader = req.headers.get('Authorization')?.replace('Bearer ', '');

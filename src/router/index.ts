@@ -28,11 +28,11 @@ const router = createRouter({
         },
       ],
     },
-    /*{
+    {
       name: 'tournaments',
       path: '/tournaments',
       component: () => import('@/views/tournament/TournamentsView.vue'),
-    },*/
+    },
     {
       path: '/users',
       children: [
