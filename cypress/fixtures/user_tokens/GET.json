@@ -1,0 +1,10 @@
+[
+    {
+        "access_token": "1234567890-asdfgh",
+        "created_at": "2025-08-20T19:10:51.720297+00:00",
+        "creator": "b05a136d-1df5-41d0-a5ab-8b16017d9bd0",
+        "provider": "Challonge",
+        "refresh_token": "1234567890-asdfgh",
+        "user_id": "id"
+    }
+]

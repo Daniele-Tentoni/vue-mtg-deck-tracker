@@ -18,16 +18,30 @@ describe("In user accounts page", () => {
     cy.mockIdentity();
     cy.mockAuth("id", "id@test.com");
     cy.authenticated("id", "id@test.com");
+    cy.mockSupabase('user_tokens', 'user_tokens.json');
+     cy.stub()
     cy.visit("/users/me/identities");
     cy.contains("table", "Provider");
     cy.contains("table", "Email");
     cy.wait("@supabase-user");
 
     cy.get('[data-test="add-account-button"]').click();
+    cy.get('[data-test="link-account-button"]').should("be.disabled");
     cy.get('[data-test="provider-selector"]').type("Twitch{downArrow}{enter}");
     cy.get('[data-test="link-account-button"]').click();
-    cy.wait("@supabase-identity-get");
-    cy.get('[data-test="unlink-button"]').click();
-    cy.wait("@supabase-identity-delete");
+  });
+
+  it("could unlink account", () => {
+    cy.mockIdentity();
+    cy.mockAuth("id", "id@test.com");
+    cy.authenticated("id", "id@test.com");
+    cy.mockSupabase('user_tokens', 'user_tokens.json');
+    cy.visit("/users/me/identities");
+    cy.wait("@supabase-user_tokens");
+
+    cy.get('[data-test="unlink-account-button"]').click();
+    cy.on("window:confirm", () => true);
+    cy.wait("@supabase-user_tokens-delete");
+    cy.contains("No linked accounts");
   });
 });

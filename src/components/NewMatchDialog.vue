@@ -61,19 +61,19 @@
           </VRow>
           <VRow justify="center">
             <VCol cols="auto">
-              <VRow align="center">
+              <VRow>
                 <VCol cols="auto">Game one</VCol>
                 <VCol cols="auto"> <MatchButtonGroup v-model="g1" num="0"></MatchButtonGroup></VCol>
               </VRow>
             </VCol>
             <VCol cols="auto">
-              <VRow align="center">
+              <VRow>
                 <VCol cols="auto">First side game</VCol>
                 <VCol cols="auto"><MatchButtonGroup v-model="s1" num="1"></MatchButtonGroup></VCol>
               </VRow>
             </VCol>
             <VCol cols="auto">
-              <VRow align="center">
+              <VRow>
                 <VCol cols="auto">
                   <VTooltip
                     :text="

@@ -139,27 +139,23 @@ Cypress.Commands.add(
 Cypress.Commands.add('mockSupabase', (table: string, fixture: string) => {
   cy.intercept('GET', `/rest/v1/${table}*`, {
     statusCode: 200,
-    fixture,
+    fixture: `${table}/GET.json`,
   }).as(`supabase-${table}`);
+  cy.intercept('DELETE', `/rest/v1/${table}*`, {
+    statusCode: 200,
+    fixture: `${table}/DELETE.json`,
+  }).as(`supabase-${table}-delete`);
 });
 
 Cypress.Commands.add('mockIdentity', () => {
-  cy.intercept(
-    'GET',
-    '/auth/v1/user/identities/*',
-    {
-      statusCode: 200,
-      body: { data: { provider: "Twitch", url: "https://twitch.com" } },
-    },
-  ).as('supabase-identity-get');
-  cy.intercept(
-    'DELETE',
-    '/auth/v1/user/identities/*',
-    {
-      statusCode: 200,
-      body: { data: {} },
-    },
-  ).as('supabase-identity-delete');
+  cy.intercept('GET', '/auth/v1/user/identities/*', {
+    statusCode: 200,
+    body: { data: { provider: 'Twitch', url: 'https://twitch.com' } },
+  }).as('supabase-identity-get');
+  cy.intercept('DELETE', '/auth/v1/user/identities/*', {
+    statusCode: 200,
+    body: { data: {} },
+  }).as('supabase-identity-delete');
 });
 
 export {};

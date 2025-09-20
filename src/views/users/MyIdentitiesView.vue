@@ -54,6 +54,7 @@
                   data-test="link-account-button"
                   variant="outlined"
                   prepend-icon="fas fa-link"
+                  :disabled="!provider"
                   >Link</VBtn
                 >
               </VCardActions>
@@ -75,10 +76,11 @@
           <VBtn
             @click="providerStore.unlink(item)"
             prepend-icon="fas fa-link-slash"
-            data-test="unlink-button"
+            data-test="unlink-account-button"
             >Unlink</VBtn
           >
         </template>
+        <template #no-data> No linked accounts </template>
       </VDataTable>
     </VRow>
   </VContainer>
@@ -110,13 +112,13 @@ async function link(isActive: Ref<boolean>) {
     return;
   }
 
-  const res = await supabase.auth.linkIdentity({
+  const { data, error } = await supabase.auth.linkIdentity({
     provider: provider.value,
     options: { redirectTo: import.meta.env.VITE_SUPABASE_REDIRECT },
   });
-  if (res.error) {
-    if (res.error.code === 'manual_linking_disabled') {
-      alert(res.error.message);
+  if (error) {
+    if (error.code === 'manual_linking_disabled') {
+      alert(error.message);
     } else {
       alert('Failed integration to twitch');
     }
@@ -124,8 +126,8 @@ async function link(isActive: Ref<boolean>) {
     return;
   }
 
-  if (res.data) {
-    alert(`Done ${res.data.provider}`);
+  if (data) {
+    alert(`Done ${data.provider}`);
     await update();
   }
 

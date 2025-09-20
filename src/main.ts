@@ -13,6 +13,11 @@ import { aliases, fa } from 'vuetify/iconsets/fa';
 const vuetify = createVuetify({
   components,
   directives,
+  defaults: {
+    VRow: {
+      align: 'center',
+    },
+  },
   icons: {
     defaultSet: 'fa',
     aliases,

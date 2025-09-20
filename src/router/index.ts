@@ -38,6 +38,7 @@ const router = createRouter({
       children: [
         {
           path: 'me',
+          redirect: '/users/me/identities',
           name: 'me',
           component: () => import('@/views/users/MeView.vue'),
           children: [

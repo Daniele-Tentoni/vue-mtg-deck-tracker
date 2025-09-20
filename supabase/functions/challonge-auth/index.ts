@@ -63,7 +63,7 @@ serve(async (req: Request) => {
 
     const jTokens = await tokenResp.json();
 
-    const { access_token, refresh_token, expires_in } = jTokens;
+    const { access_token, refresh_token } = jTokens;
     console.log('Obtained access_token:', access_token);
 
     const supabaseClient = createClient(supabaseUrl, supabaseAnonKey, {
@@ -71,10 +71,12 @@ serve(async (req: Request) => {
     });
 
     // Salvo token in DB
-    const me = await supabaseClient.auth.getUser();
+    const {
+      data: { user },
+    } = await supabaseClient.auth.getUser();
     const s = await supabaseClient.from('user_tokens').upsert(
       {
-        user_id: me.id,
+        user_id: user.id,
         provider: providerName,
         access_token,
         refresh_token,
@@ -84,7 +86,7 @@ serve(async (req: Request) => {
 
     console.log('Upsert result:', s);
 
-    return new Response(JSON.stringify({ success: true, mail: me.email, state }), {
+    return new Response(JSON.stringify({ success: true, mail: user.id, state }), {
       status: 200,
       headers: { ...corsHeaders(origin), 'Content-Type': 'application/json' },
     });

@@ -49,12 +49,14 @@ serve(async (req: Request) => {
     global: { headers: { Authorization: authorization } },
   });
 
-  const me = await supabaseClient.auth.getUser();
-  console.log('User:', me.id, authorization);
+  const {
+    data: { user },
+  } = await supabaseClient.auth.getUser();
+
   const { data: tokens, error: tokenErr } = await supabaseClient
     .from('user_tokens')
     .select('access_token')
-    .eq('user_id', me.id)
+    .eq('user_id', user.id)
     .eq('provider', providerName)
     .single();
 
@@ -80,7 +82,7 @@ serve(async (req: Request) => {
       headers: {
         Authorization: `Bearer ${accessToken}`,
         'Authorization-Type': 'v2',
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/vnd.api+json',
         Accept: 'application/json',
       },
       body: req.method === 'GET' || req.method === 'HEAD' ? undefined : await req.text(),
@@ -89,9 +91,8 @@ serve(async (req: Request) => {
   // primo tentativo
   let res = await upstream(tokens.access_token);
   console.log(`Upstream response status ${res.status}: ${reqUrl}...`);
-  let setCookieHeader: string | undefined;
 
-  // se 401 e ho refresh_token, tenta refresh
+  // se 401 e ho refresh_token, tenta refresh, non ho più il cookie, ma header
   /*if (res.status === 401 && session.refresh_token) {
     const refreshed = await refreshTokens(session.refresh_token);
     if (refreshed?.access_token) {
@@ -112,6 +113,5 @@ serve(async (req: Request) => {
   const body = await res.arrayBuffer();
   const headers = new Headers(res.headers);
   headers.set('Content-Type', headers.get('Content-Type') ?? 'application/json');
-  if (setCookieHeader) headers.append('Set-Cookie', setCookieHeader);
   return new Response(body, { status: res.status, headers: { ...cors, ...headers } });
 });
