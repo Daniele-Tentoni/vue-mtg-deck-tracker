@@ -11,7 +11,7 @@ import { useDisplay } from 'vuetify';
 import type { SortItem } from 'vuetify/lib/components/VDataTable/composables/sort.mjs';
 
 const route = useRoute();
-const format = computed(() => route.params.format.toString());
+const format = computed(() => route.params.format?.toString());
 
 const _headers = [
   {

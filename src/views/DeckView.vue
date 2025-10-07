@@ -69,7 +69,7 @@ import { computed, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
 const route = useRoute();
-const deck = computed(() => route.params.deck.toString());
+const deck = computed(() => route.params.deck?.toString());
 const archetypes = useArchetype();
 const myArchetype = ref<Archetype>();
 
@@ -122,6 +122,10 @@ const matchScore = computed(() => (match: MatchClass) => {
 });
 
 onMounted(async () => {
+  if (!deck.value) {
+    return;
+  }
+  
   try {
     loading.value = true;
     await decks.loadAsync();
