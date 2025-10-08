@@ -5,5 +5,5 @@ import { useRoute } from 'vue-router';
 
 const route = useRoute();
 
-const pathMatch = computed(() => route.params.pathMatch.toString());
+const pathMatch = computed(() => route.params.pathMatch?.toString());
 </script>
