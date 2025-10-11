@@ -39,9 +39,13 @@ describe('The app root url', () => {
 
     cy.get('[data-test="new-match-button-dialog"]').click();
     cy.get('[data-test="close-button"]').click();
+    
+    // Open the dialog and fill decks.
     cy.get('[data-test="new-match-button-dialog"]').click();
     cy.get('[data-test="your-deck-field"]').type('Mono Blue Faeries{downArrow}{enter}');
     cy.get('[data-test="their-deck-field"]').type('Jund Wildfire{downArrow}{enter}');
+
+    // Select some combinations of scores.
     cy.get('[data-test="match-button-group-0-button-0"]').click();
     cy.get('[data-test="match-button-group-1-button-0"]').click();
     cy.get('[data-test="new-match-resume-text"]').should('include.text', 'Player');
@@ -49,7 +53,11 @@ describe('The app root url', () => {
     cy.get('[data-test="match-button-group-1-button-1"]').click();
     cy.get('[data-test="match-button-group-2-button-1"]').click();
     cy.get('[data-test="new-match-resume-text"]').should('include.text', 'Player');
+
+    // Try to post the match.
+    cy.intercept('POST', `/rest/v1/matches*`, {statusCode:200}).as('create_match');
     cy.get('[data-test="new-match-create-action"]').click();
+    cy.wait('@create_match')
     cy.get('[data-test="close-button"]').should('not.exist');
   });
 

@@ -121,8 +121,8 @@ Cypress.Commands.add(
     cy.intercept('POST', '/auth/v1/token*', {
       statusCode: 200,
       body: {
-        access_token: 'mock-access-token',
-        refresh_token: 'mock-refresh-token',
+        access_token: 'mock.access.token',
+        refresh_token: 'mock.refresh.token',
         user: { id, email },
       },
     }).as('supabase-login');
