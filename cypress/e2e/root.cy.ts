@@ -49,6 +49,7 @@ describe('The app root url', () => {
     cy.get('[data-test="match-button-group-1-button-1"]').click();
     cy.get('[data-test="match-button-group-2-button-1"]').click();
     cy.get('[data-test="new-match-resume-text"]').should('include.text', 'Player');
+    cy.intercept('POST', `/rest/v1/matches`, {statusCode:200});
     cy.get('[data-test="new-match-create-action"]').click();
     cy.get('[data-test="close-button"]').should('not.exist');
   });
