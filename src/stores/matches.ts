@@ -32,23 +32,16 @@ export const useDeck = defineStore('match', () => {
     const { data, error } = (await supabase
       .from('matches')
       .insert(newMatch)
-      .select(MatchWithArchetypeQueryString)) as unknown as {
-      data: MatchWithArchetypeType[];
-      error: PostgrestError;
-    }; // opzionale: per ottenere indietro la riga appena creata
+      .select(MatchWithArchetypeQueryString).single()) as unknown as {
+        data: MatchWithArchetypeType;
+        error: PostgrestError;
+      };
 
     if (error) {
       throw error;
     }
 
-    if (import.meta.env.DEV) {
-      console.log(data);
-    }
-
-    data.forEach((match) => {
-      matches.value.push(new MatchClass(match));
-    });
-
+    matches.value.push(new MatchClass(data));
     return data;
   }
 
