@@ -28,11 +28,10 @@
                 type="email"
                 placeholder="Email"
                 :error-messages="registerMessages"
+                :hide-details="true"
+                @keyup.enter="register"
               ></VTextField>
             </VCol>
-          </VRow>
-          <VRow>
-            <VCol> </VCol>
           </VRow>
         </template>
         <template #actions>

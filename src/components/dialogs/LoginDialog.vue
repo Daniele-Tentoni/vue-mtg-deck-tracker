@@ -27,6 +27,7 @@
                 type="email"
                 placeholder="Email"
                 :error-messages="loginError"
+                @keyup.enter="login"
               ></VTextField>
             </VCol>
           </VRow>
