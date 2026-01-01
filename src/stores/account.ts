@@ -16,10 +16,10 @@ export const useAccount = defineStore('account', () => {
       supabase.auth.onAuthStateChange((_, session) => {
         account.value = session?.user || undefined;
       });
-    }
-
-    if (error?.name !== 'AuthSessionMissingError') {
-      console.error(error);
+    } else {
+      if (error?.name !== 'AuthSessionMissingError') {
+        console.error(error);
+      }
     }
   }
 
