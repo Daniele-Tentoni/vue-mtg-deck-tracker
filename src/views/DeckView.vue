@@ -64,7 +64,7 @@ import NewMatchDialog from '@/components/NewMatchDialog.vue';
 import { isArch, MatchClass } from '@/models/Deck';
 import { useAccount } from '@/stores/account';
 import { useArchetype } from '@/stores/archetype';
-import { useDeck, type Archetype } from '@/stores/matches';
+import { useDeck, type Archetype, type MatchWithArchetypeType } from '@/stores/matches';
 import { computed, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 

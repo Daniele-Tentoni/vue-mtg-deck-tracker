@@ -277,6 +277,7 @@ const loading = ref(false);
 onMounted(async () => {
   try {
     loadingArchetypes.value = true;
+    // TODO: Fare un mock per la generazione delle liste di archetipi per nome.
     await archetypes.loadAsync();
   } finally {
     loadingArchetypes.value = false;
