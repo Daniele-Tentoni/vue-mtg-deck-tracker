@@ -157,12 +157,14 @@ import CloseButton from '@/components/dialogs/CloseButton.vue';
 import MatchButtonGroup from './MatchButtonGroup.vue';
 import { useArchetype } from '@/stores/archetype';
 
+const props = defineProps(["my"]);
+
 const validMatch = computed(() => yourDeck.value && theirDeck.value);
 const shouldPlayThird = computed(
   () => typeof g1.value !== 'undefined' && typeof s1.value !== 'undefined' && g1.value !== s1.value,
 );
 
-const yourDeck = ref<number>();
+const yourDeck = ref<number | undefined>(props.my);
 const theirDeck = ref<number>();
 
 const g1 = ref<number>();
@@ -275,6 +277,7 @@ const loading = ref(false);
 onMounted(async () => {
   try {
     loadingArchetypes.value = true;
+    // TODO: Fare un mock per la generazione delle liste di archetipi per nome.
     await archetypes.loadAsync();
   } finally {
     loadingArchetypes.value = false;

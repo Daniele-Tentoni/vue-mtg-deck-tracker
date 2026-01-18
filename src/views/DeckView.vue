@@ -2,7 +2,7 @@
   <VContainer fluid>
     <VRow>
       <VCol>
-        {{ deck }}
+        {{ deck }} / {{ myArchetype?.id }}
       </VCol>
       <VSpacer></VSpacer>
       <VCol cols="auto" v-if="account.authenticated">
@@ -49,13 +49,13 @@
         </VDataTable>
       </VCol>
     </VRow>
-    <VRow v-if="isDev">
+    <!--<VRow v-if="isDev">
       <VCol>
         <VExpansionPanels>
           <VExpansionPanel title="Items" :text="JSON.stringify(items)"> </VExpansionPanel>
         </VExpansionPanels>
       </VCol>
-    </VRow>
+    </VRow>-->
   </VContainer>
 </template>
 
@@ -64,7 +64,7 @@ import NewMatchDialog from '@/components/NewMatchDialog.vue';
 import { isArch, MatchClass } from '@/models/Deck';
 import { useAccount } from '@/stores/account';
 import { useArchetype } from '@/stores/archetype';
-import { useDeck, type Archetype } from '@/stores/matches';
+import { useDeck, type Archetype, type MatchWithArchetypeType } from '@/stores/matches';
 import { computed, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 
@@ -94,9 +94,11 @@ const headers = [
 
 const account = useAccount();
 
-const decks = useDeck();
+// const decks = useDeck();
 
-const items = computed(() => {
+const items: MatchWithArchetypeType[] = [];
+
+/*const items = computed(() => {
   // TODO: Move to supabase query.
   const matches = decks.matches.filter(
     (f) =>
@@ -105,11 +107,11 @@ const items = computed(() => {
   );
   matches.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
   return matches;
-});
+});*/
 
 const loading = ref(false);
 
-const matchScore = computed(() => (match: MatchClass) => {
+const matchScore = computed(() => (match: MatchWithArchetypeType) => {
   const c = (i?: number | null) => {
     return i === 0 ? 1 : 0;
   };
@@ -128,11 +130,13 @@ onMounted(async () => {
   
   try {
     loading.value = true;
-    await decks.loadAsync();
+    debugger;
+    console.log("Loading for deck: ", deck.value);
     const all = await archetypes.getByName(deck.value);
+    /*console.log("Loaded for: ", all);
     if (all && all.length > 0) {
       myArchetype.value = all[0];
-    }
+    }*/
   } finally {
     loading.value = false;
   }

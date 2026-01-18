@@ -47,6 +47,8 @@ declare global {
        * @param data Array di oggetti da restituire
        */
       mockSupabase(table: string, fixture: string): Chainable<void>;
+      mockArchByName(archetype: string, mock: string): Chainable<void>;
+      mockMatches(): Chainable<void>;
     }
   }
 }
@@ -136,10 +138,31 @@ Cypress.Commands.add(
 );
 
 Cypress.Commands.add('mockSupabase', (table: string, fixture: string) => {
-  cy.intercept('GET', `/rest/v1/${table}*`, {
-    statusCode: 200,
-    fixture,
-  }).as(`supabase-${table}`);
+  cy.intercept('GET', `/rest/v1/${table}*`,
+    {
+      statusCode: 200,
+      fixture,
+    }).as(`supabase-${table}`);
 });
 
-export {};
+Cypress.Commands.add('mockMatches', () => {
+  cy.intercept('GET', '/rest/v1/matches*', { statusCode: 200, fixture: 'matches.json', });
+});
+
+Cypress.Commands.add('mockArchByName', (archetype: string, mock: string) => {
+  /*
+   * For example you can find White Weenie using:
+   * https://awvhzmqrqxrqlsohpsqr.supabase.co/rest/v1/archetypes?select=*&name=eq.White Weenie
+   * https://awvhzmqrqxrqlsohpsqr.supabase.co/rest/v1/archetypes?select=*&name=eq.White+Weenie
+   */
+  cy.intercept(
+    'GET',
+    `/rest/v1/archetypes?select=*&name=eq.${archetype}`,
+    {
+      // cypress/fixtures/archetypes/White+Weenie.json
+      fixture: `/archetypes/${archetype}.json`
+    }
+  ).as(mock)
+})
+
+export { };
