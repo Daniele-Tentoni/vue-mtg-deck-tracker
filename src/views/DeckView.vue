@@ -111,7 +111,7 @@ const items: MatchWithArchetypeType[] = [];
 
 const loading = ref(false);
 
-const matchScore = computed(() => (match: MatchClass) => {
+const matchScore = computed(() => (match: MatchWithArchetypeType) => {
   const c = (i?: number | null) => {
     return i === 0 ? 1 : 0;
   };

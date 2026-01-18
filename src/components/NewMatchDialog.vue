@@ -164,7 +164,7 @@ const shouldPlayThird = computed(
   () => typeof g1.value !== 'undefined' && typeof s1.value !== 'undefined' && g1.value !== s1.value,
 );
 
-const yourDeck = ref<number>(props.my);
+const yourDeck = ref<number | undefined>(props.my);
 const theirDeck = ref<number>();
 
 const g1 = ref<number>();
