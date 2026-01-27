@@ -2,7 +2,11 @@
   <VContainer fluid>
     <VRow>
       <VCol>
-        {{ deck }} / {{ myArchetype?.id }}
+        <VTooltip :text="myArchetype?.id?.toString()">
+          <template #activator="{ props }">
+            <span v-bind="props">{{ deck }}</span>
+          </template>
+        </VTooltip>
       </VCol>
       <VSpacer></VSpacer>
       <VCol cols="auto" v-if="account.authenticated">
@@ -28,22 +32,16 @@
             {{ item.side_second_win }}
           </template>
           <template #[`item.data-table-expand`]="{ item, internalItem, isExpanded, toggleExpand }">
-            <VBtn
-              v-if="item.note !== null"
+            <VBtn v-if="item.note"
               :append-icon="isExpanded(internalItem) ? 'fas fa-chevron-up' : 'fas fa-chevron-down'"
-              :text="isExpanded(internalItem) ? 'Collapse' : 'More info'"
-              class="text-none"
-              color="medium-emphasis"
-              size="small"
-              variant="text"
-              width="105"
-              slim
-              @click="toggleExpand(internalItem)"
-            ></VBtn>
+              :text="isExpanded(internalItem) ? 'Collapse' : 'More info'" class="text-none" color="medium-emphasis"
+              size="small" variant="text" width="105" slim @click="toggleExpand(internalItem)"></VBtn>
           </template>
           <template v-slot:expanded-row="{ item, columns }">
             <tr>
-              <td :colspan="columns.length"><VIcon>fas fa-note-sticky</VIcon>{{ item.note }}</td>
+              <td :colspan="columns.length">
+                <VIcon>fas fa-note-sticky</VIcon>{{ item.note }}
+              </td>
             </tr>
           </template>
         </VDataTable>
@@ -94,9 +92,9 @@ const headers = [
 
 const account = useAccount();
 
-// const decks = useDeck();
+const decks = useDeck();
 
-const items: MatchWithArchetypeType[] = [];
+// const items: MatchWithArchetypeType[] = [];
 
 /*const items = computed(() => {
   // TODO: Move to supabase query.
@@ -108,6 +106,8 @@ const items: MatchWithArchetypeType[] = [];
   matches.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
   return matches;
 });*/
+
+const items = ref<MatchWithArchetypeType[]>()
 
 const loading = ref(false);
 
@@ -127,16 +127,13 @@ onMounted(async () => {
   if (!deck.value) {
     return;
   }
-  
+
   try {
     loading.value = true;
-    debugger;
-    console.log("Loading for deck: ", deck.value);
-    const all = await archetypes.getByName(deck.value);
-    /*console.log("Loaded for: ", all);
-    if (all && all.length > 0) {
-      myArchetype.value = all[0];
-    }*/
+    myArchetype.value =  await archetypes.getByName(deck.value);
+    if (myArchetype.value?.id) {
+      items.value = await decks.getByArchetype(myArchetype.value.id);
+    }
   } finally {
     loading.value = false;
   }
