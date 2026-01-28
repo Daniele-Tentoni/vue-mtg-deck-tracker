@@ -7,7 +7,6 @@ export const useArchetype = defineStore('archetype', () => {
   const archetypes = ref<Archetype[]>([]);
 
   async function loadAsync() {
-    debugger;
     const remoteArchetypes = await supabase
       .from('archetypes')
       .select('*')
@@ -18,7 +17,6 @@ export const useArchetype = defineStore('archetype', () => {
   }
 
   async function get(id: number) {
-    debugger;
     const { data: archetypes, error } = await supabase.from('archetypes').select('*').eq('id', id);
     if (archetypes) {
       return archetypes;
@@ -30,17 +28,18 @@ export const useArchetype = defineStore('archetype', () => {
   }
 
   async function getByName(name: string) {
-    const { data: archetypes, error } = await supabase
+    const { data: archetype, error } = await supabase
       .from('archetypes')
       .select('*')
-      .eq('name', name);
-    if (archetypes) {
-      return archetypes;
+      .eq('name', name)
+      .single();
+    if (archetype) {
+      return archetype;
     }
 
     if (error) {
       console.error(error);
-      debugger;
+      throw error;
     }
   }
 

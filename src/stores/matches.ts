@@ -55,5 +55,15 @@ export const useDeck = defineStore('match', () => {
     }
   }
 
-  return { matches, createMatchAsync, loadAsync };
+  async function getByArchetype(archetypeId: number): Promise<MatchWithArchetypeType[] | undefined> {
+    const { data } = await supabase
+    .from('matches')
+    .select(MatchWithArchetypeQueryString)
+    .or(`my_archetype.eq.${archetypeId},their_archetype.eq.${archetypeId}`)
+    if (data) {
+      return data as unknown as MatchWithArchetypeType[];
+    }
+  }
+
+  return { matches, createMatchAsync, loadAsync, getByArchetype };
 });
