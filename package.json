@@ -22,7 +22,7 @@
     "update-types": "run-s supabase:types format"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.89.0",
+    "@supabase/supabase-js": "^2.92.0",
     "blueimp-md5": "^2.19.0",
     "pinia": "^3.0.4",
     "vue": "^3.5.27",
