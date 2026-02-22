@@ -36,6 +36,8 @@ describe('The app root url', () => {
       fixture: 'war-50-fblthp-the-lost.jpg',
     }).as('img');
     cy.visit('/');
+    cy.wait('@supabase-matches');
+    cy.wait('@img');
 
     cy.get('[data-test="new-match-button-dialog"]').click();
     cy.get('[data-test="close-button"]').click();
