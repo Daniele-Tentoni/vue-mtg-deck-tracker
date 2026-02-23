@@ -30,7 +30,7 @@
     "vuetify": "^3.11.8"
   },
   "devDependencies": {
-    "@fortawesome/fontawesome-free": "^7.1.0",
+    "@fortawesome/fontawesome-free": "^7.2.0",
     "@tsconfig/node24": "^24.0.4",
     "@types/blueimp-md5": "^2.18.2",
     "@types/jsdom": "^27.0.0",
