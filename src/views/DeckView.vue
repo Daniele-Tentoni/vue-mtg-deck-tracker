@@ -32,16 +32,22 @@
             {{ item.side_second_win }}
           </template>
           <template #[`item.data-table-expand`]="{ item, internalItem, isExpanded, toggleExpand }">
-            <VBtn v-if="item.note"
+            <VBtn
+              v-if="item.note"
               :append-icon="isExpanded(internalItem) ? 'fas fa-chevron-up' : 'fas fa-chevron-down'"
-              :text="isExpanded(internalItem) ? 'Collapse' : 'More info'" class="text-none" color="medium-emphasis"
-              size="small" variant="text" width="105" slim @click="toggleExpand(internalItem)"></VBtn>
+              :text="isExpanded(internalItem) ? 'Collapse' : 'More info'"
+              class="text-none"
+              color="medium-emphasis"
+              size="small"
+              variant="text"
+              width="105"
+              slim
+              @click="toggleExpand(internalItem)"
+            ></VBtn>
           </template>
           <template v-slot:expanded-row="{ item, columns }">
             <tr>
-              <td :colspan="columns.length">
-                <VIcon>fas fa-note-sticky</VIcon>{{ item.note }}
-              </td>
+              <td :colspan="columns.length"><VIcon>fas fa-note-sticky</VIcon>{{ item.note }}</td>
             </tr>
           </template>
         </VDataTable>
@@ -107,7 +113,7 @@ const decks = useDeck();
   return matches;
 });*/
 
-const items = ref<MatchWithArchetypeType[]>()
+const items = ref<MatchWithArchetypeType[]>();
 
 const loading = ref(false);
 
@@ -130,7 +136,7 @@ onMounted(async () => {
 
   try {
     loading.value = true;
-    myArchetype.value =  await archetypes.getByName(deck.value);
+    myArchetype.value = await archetypes.getByName(deck.value);
     if (myArchetype.value?.id) {
       items.value = await decks.getByArchetype(myArchetype.value.id);
     }

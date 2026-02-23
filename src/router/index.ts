@@ -31,7 +31,7 @@ const router = createRouter({
     {
       name: 'users',
       path: '/users/me',
-      component: () => import('../views/users/MeView.vue')
+      component: () => import('../views/users/MeView.vue'),
     },
     {
       path: '/:pathMatch(.*)*',

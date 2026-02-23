@@ -29,7 +29,7 @@ describe('The app root url', () => {
     cy.mockAuth('id', 'id@test.com');
     cy.mockSupabase('archetypes', 'archetypes.json');
     cy.mockSupabase('matches', 'matches.json');
-
+    
     cy.intercept('GET', 'https://cards.scryfall.io/**', {
       statusCode: 200,
       headers: { 'Content-Type': 'image/png' },
@@ -37,18 +37,17 @@ describe('The app root url', () => {
     }).as('img');
     cy.visit('/');
     cy.wait('@supabase-matches');
-    cy.wait('@img');
-
+    cy.wait('@supabase-archetypes')
+    cy.wait('@supabase-user')
+    
     cy.get('[data-test="new-match-button-dialog"]').click();
     cy.get('[data-test="close-button"]').click();
     
     // Open the dialog and fill decks.
     cy.get('[data-test="new-match-button-dialog"]').click();
-    cy.get('[data-test="your-deck-field"]').type('Mono Blue Faeries').type('{downArrow}');
-    cy.press(Cypress.Keyboard.Keys.ENTER);
+    cy.get('[data-test="your-deck-field"]').type('Mono Blue Faeries{downArrow}{enter}');
     cy.press(Cypress.Keyboard.Keys.TAB);
-    cy.get('[data-test="their-deck-field"]').type('Jund Wildfire').type('{downArrow}');
-    cy.press(Cypress.Keyboard.Keys.ENTER);
+    cy.get('[data-test="their-deck-field"]').type('Jund Wildfire{downArrow}{enter}');
     
     // Select some combinations of scores.
     cy.get('[data-test="match-button-group-0-button-0"]').click();

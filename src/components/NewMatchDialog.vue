@@ -157,7 +157,7 @@ import CloseButton from '@/components/dialogs/CloseButton.vue';
 import MatchButtonGroup from './MatchButtonGroup.vue';
 import { useArchetype } from '@/stores/archetype';
 
-const props = defineProps(["my"]);
+const props = defineProps(['my']);
 
 const validMatch = computed(() => yourDeck.value && theirDeck.value);
 const shouldPlayThird = computed(
