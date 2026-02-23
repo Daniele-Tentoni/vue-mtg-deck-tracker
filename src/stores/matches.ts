@@ -32,10 +32,11 @@ export const useDeck = defineStore('match', () => {
     const { data, error } = (await supabase
       .from('matches')
       .insert(newMatch)
-      .select(MatchWithArchetypeQueryString).single()) as unknown as {
-        data: MatchWithArchetypeType;
-        error: PostgrestError;
-      };
+      .select(MatchWithArchetypeQueryString)
+      .single()) as unknown as {
+      data: MatchWithArchetypeType;
+      error: PostgrestError;
+    };
 
     if (error) {
       throw error;
@@ -55,11 +56,13 @@ export const useDeck = defineStore('match', () => {
     }
   }
 
-  async function getByArchetype(archetypeId: number): Promise<MatchWithArchetypeType[] | undefined> {
+  async function getByArchetype(
+    archetypeId: number,
+  ): Promise<MatchWithArchetypeType[] | undefined> {
     const { data } = await supabase
-    .from('matches')
-    .select(MatchWithArchetypeQueryString)
-    .or(`my_archetype.eq.${archetypeId},their_archetype.eq.${archetypeId}`)
+      .from('matches')
+      .select(MatchWithArchetypeQueryString)
+      .or(`my_archetype.eq.${archetypeId},their_archetype.eq.${archetypeId}`);
     if (data) {
       return data as unknown as MatchWithArchetypeType[];
     }

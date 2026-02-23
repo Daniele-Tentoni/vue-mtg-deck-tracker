@@ -12,7 +12,9 @@ import type { SortItem } from 'vuetify/lib/components/VDataTable/composables/sor
 
 const route = useRoute();
 const format = computed(() => route.params.format?.toString());
-const formatName = computed(() => format.value?.substring(0, 1).toUpperCase().concat(format.value.substring(1)))
+const formatName = computed(() =>
+  format.value?.substring(0, 1).toUpperCase().concat(format.value.substring(1)),
+);
 
 const _headers = [
   {

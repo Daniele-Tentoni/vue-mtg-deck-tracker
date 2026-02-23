@@ -96,6 +96,7 @@ const profileUrl = ref('');
 
     <VFooter app class="elevation-1" elevation="4">
       <VRow>
+        <VCol>Daniele Tentoni</VCol>
         <VSpacer></VSpacer>
         <VCol cols="auto">
           <a href="https://github.com/daniele-tentoni/vue-mtg-deck-tracker" target="_blank">
