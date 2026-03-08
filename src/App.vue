@@ -94,7 +94,7 @@ const profileUrl = ref('');
       </template>
     </VAppBar>
 
-    <VFooter app class="elevation-1" elevation="4">
+    <VFooter app class="elevation-1">
       <VRow>
         <VCol>Daniele Tentoni</VCol>
         <VSpacer></VSpacer>
@@ -108,6 +108,7 @@ const profileUrl = ref('');
 
     <VNavigationDrawer v-model="drawer" temporary>
       <VListItem title="Home" prepend-icon="fa fa-home" link to="/" />
+      <VListItem title="Trio" prepend-icon="fa fa-home" link to="/trio" />
       <VListItem title="Pauper Archetypes" prepend-icon="fa fa-home" link to="/pauper" />
       <VListItem
         prepend-icon="fab fa-github"

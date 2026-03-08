@@ -1,3 +1,3 @@
 <template>
-  <v-container fluid> Me </v-container>
+  <v-container fluid class="fill-height"> Me </v-container>
 </template>
