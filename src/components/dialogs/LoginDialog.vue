@@ -16,7 +16,9 @@
               </p>
               <p class="mt-2">
                 If you need an account,
-                <span class="text-decoration-underline" @click="emit('register')">click here</span>.
+                <span class="text-decoration-underline cursor-pointer" @click="emit('register')"
+                  >click here</span
+                >.
               </p>
             </VCol>
           </VRow>

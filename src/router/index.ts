@@ -12,6 +12,11 @@ const router = createRouter({
       redirect: '/pauper',
     },
     {
+      name: 'trio',
+      path: '/trio',
+      component: () => import('@/views/trio/TeamTrioView.vue'),
+    },
+    {
       name: 'format',
       path: '/:format',
       children: [

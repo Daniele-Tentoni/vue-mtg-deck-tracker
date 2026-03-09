@@ -1,0 +1,30 @@
+4 Cast Down (DOM) 81
+4 Cleansing Wildfire (ZNR) 137
+4 Drossforge Bridge (MH2) 246
+2 Eviscerator's Insight (MH3) 93
+4 Fanatical Offering (LCI) 105
+2 Forest (EOE) 266 *F*
+4 Ichor Wellspring (BRC) 143
+3 Krark-Clan Shaman (MRD) 98
+3 Lembas (LTR) 694 *F*
+1 Makeshift Munitions (CMR) 191
+1 Mountain (EOE) 265 *F*
+3 Nihil Spellbomb (SOM) 187
+1 Nyxborn Hydra (MH3) 164
+2 Pulse of Murasa (M20) 189
+4 Refurbished Familiar (MH3) 105
+1 Sagu Wildling / Roost Seek (TDM) 306 *F*
+4 Slagwoods Bridge (MH2) 256
+3 Swamp (EOE) 264 *F*
+4 Twisted Landscape (MH3) 232
+2 Vault of Whispers (BRC) 211
+4 Writhing Chrysalis (MH3) 208
+
+SIDEBOARD:
+2 Breath Weapon (CLB) 165
+3 Duress (M21) 96
+1 Heritage Reclamation (TDM) 145 *F*
+3 Red Elemental Blast (4ED) 218
+2 Toxin Analysis (MKM) 107
+1 Troublemaker Ouphe (WOE) 194
+3 Weather the Storm (H1R) 24 *E*
