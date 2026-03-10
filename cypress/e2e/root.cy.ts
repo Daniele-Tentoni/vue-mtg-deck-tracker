@@ -29,7 +29,7 @@ describe('The app root url', () => {
     cy.mockAuth('id', 'id@test.com');
     cy.mockSupabase('archetypes', 'archetypes.json');
     cy.mockSupabase('matches', 'matches.json');
-    
+
     cy.intercept('GET', 'https://cards.scryfall.io/**', {
       statusCode: 200,
       headers: { 'Content-Type': 'image/png' },
@@ -39,16 +39,14 @@ describe('The app root url', () => {
     cy.wait('@supabase-matches');
     cy.wait('@supabase-archetypes')
     cy.wait('@supabase-user')
-    
-    cy.get('[data-test="new-match-button-dialog"]').click();
-    cy.get('[data-test="close-button"]').click();
-    
+
     // Open the dialog and fill decks.
     cy.get('[data-test="new-match-button-dialog"]').click();
+    cy.get('[data-test="note-textarea-new-match-dialog"] textarea').should('have.text', '');
     cy.get('[data-test="your-deck-field"]').type('Mono Blue Faeries{downArrow}{enter}');
     cy.press(Cypress.Keyboard.Keys.TAB);
     cy.get('[data-test="their-deck-field"]').type('Jund Wildfire{downArrow}{enter}');
-    
+
     // Select some combinations of scores.
     cy.get('[data-test="match-button-group-0-button-0"]').click();
     cy.get('[data-test="match-button-group-1-button-0"]').click();
@@ -57,13 +55,18 @@ describe('The app root url', () => {
     cy.get('[data-test="match-button-group-1-button-1"]').click();
     cy.get('[data-test="match-button-group-2-button-1"]').click();
     cy.get('[data-test="new-match-resume-text"]').should('include.text', 'Player');
-    
+
     // Try to post the match.
     cy.intercept('POST', `/rest/v1/matches*`, { statusCode: 200 }).as('create_match');
     cy.get('[data-test="new-match-create-action"]').click();
     cy.wait('@create_match')
     cy.get('[data-test="close-button"]').should('not.exist');
-    
+
+    // Reopen dialog to see cleaned fields.
+    cy.get('[data-test="new-match-button-dialog"]').click();
+    cy.get('[data-test="note-expansion-title-new-match"]').click();
+    cy.get('[data-test="note-textarea-new-match-dialog"] textarea').should('have.text', '');
+    cy.get('[data-test="close-button"]').click();
   });
 
   it('open an archetype page', () => {

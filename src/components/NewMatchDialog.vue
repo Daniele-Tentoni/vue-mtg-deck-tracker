@@ -111,8 +111,8 @@
             <VCol>
               <VExpansionPanels>
                 <VExpansionPanel>
-                  <VExpansionPanelTitle>
-                    <VIcon class="me-2">fas fa-note-sticky</VIcon>Note
+                  <VExpansionPanelTitle data-test="note-expansion-title-new-match">
+                    <VIcon class="me-2">fas fa-note-sticky</VIcon>&nbsp;Note
                   </VExpansionPanelTitle>
                   <VExpansionPanelText>
                     <VRow no-gutter>
@@ -120,7 +120,7 @@
                         Use this field to note something you want to remember about this game.
                       </VCol>
                       <VCol cols="12">
-                        <VTextarea label="Note" v-model="note"></VTextarea>
+                        <VTextarea label="Note" v-model="note" data-test="note-textarea-new-match-dialog"></VTextarea>
                       </VCol>
                     </VRow>
                   </VExpansionPanelText>
@@ -259,7 +259,7 @@ function create(isActive: Ref<boolean>) {
     g1.value = undefined;
     s1.value = undefined;
     s2.value = undefined;
-    note.value = false;
+    note.value = undefined;
     isActive.value = false;
   } finally {
     loading.value = false;
