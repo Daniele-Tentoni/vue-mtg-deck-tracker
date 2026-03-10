@@ -2,5 +2,12 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "local>Daniele-Tentoni/renovate-config"
+  ],
+  "packageRules": [
+    {
+      "description": "Disable patch updates",
+      "matchUpdateTypes": ["patch"],
+      "enabled": false
+    }
   ]
 }
