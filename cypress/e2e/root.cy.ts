@@ -42,6 +42,7 @@ describe('The app root url', () => {
 
     // Open the dialog and fill decks.
     cy.get('[data-test="new-match-button-dialog"]').click();
+    cy.get('[data-test="note-expansion-title-new-match"]').click();
     cy.get('[data-test="note-textarea-new-match-dialog"] textarea').should('have.text', '');
     cy.get('[data-test="your-deck-field"]').type('Mono Blue Faeries{downArrow}{enter}');
     cy.press(Cypress.Keyboard.Keys.TAB);
