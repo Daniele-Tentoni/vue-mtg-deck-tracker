@@ -31,7 +31,7 @@ export function trimLines(text: string) {
 
 export function trimCards(line: string) {
   const match = line.match(
-    /^(?:(\d+)\s+)?(.+?)(?:\s+\(([A-Z0-9]+)\))?(?:\s+(\d+))?\s*(\*F\*|\*E\*)?$/,
+    /^(?:(\d+)\s+)?(.+?)(?:\s+\(([A-Z0-9]+)\))?(?:\s+([\w-]+))?\s*(\*F\*|\*E\*)?$/,
   );
   if (match) {
     const card = parseCard(match);

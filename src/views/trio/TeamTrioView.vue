@@ -1,62 +1,57 @@
 <template>
-  <VContainer fluid>
+  <VContainer fluid class="fill-height">
     <VRow class="align-baseline">
-      <VCol>
-        Inserisci i mazzi che vuoi usare al tuo prossimo team trio e verifica se le liste sono
-        compatibili. Ti ricordo che non puoi usare carte che non siano legali in pauper e non puoi
-        usare la stessa carta in due mazzi diversi, nemmeno una.</VCol
-      >
+      <VCol cols="auto" v-if="duplicates.size > 0">
+        <v-alert
+          text="Your team decks contain duplicates"
+          type="warning"
+          data-testid="duplicates-warning"
+        ></v-alert>
+      </VCol>
+      <v-spacer></v-spacer>
       <VCol cols="auto">
         <UploadDeckDialog @get-deck="getDeck"></UploadDeckDialog>
       </VCol>
       <VCol cols="auto">
         <v-tooltip text="Start the deck checking">
           <template #activator="{ props }">
-            <VBtn v-bind="props" @click="check" data-testid="check-deck-button">Check</VBtn>
+            <VBtn
+              v-bind="props"
+              prepend-icon="fas fa-check"
+              @click="check"
+              data-testid="check-deck-button"
+              >Check</VBtn
+            >
           </template>
         </v-tooltip>
       </VCol>
     </VRow>
     <VRow>
       <VCol>
-        <VProgressLinear
-          :model-value="progress"
-          :max="maxCards"
-          :active="progress > 0"
-        ></VProgressLinear>
+        <v-tooltip text="Check in progress">
+          <template #activator="{ props }">
+            <VProgressLinear
+              v-bind="props"
+              :model-value="progress"
+              :max="maxCards"
+              :active="progress > 0"
+            ></VProgressLinear>
+          </template>
+        </v-tooltip>
       </VCol>
     </VRow>
     <VRow>
       <VCol v-for="(deck, i) in decks" :key="i" cols="auto">
-        <VCard>
-          <template #title> Deck {{ i + 1 }} </template>
-          <template #append>
-            <VBtn icon="fas fa-close" @click="removeDeck(i)" color="warning" variant="text"></VBtn>
-          </template>
-          <template #default>
-            <VList density="compact">
-              <CardListItem
-                v-for="(card, j) in deck.main"
-                :key="j"
-                :card
-                :color="coloredCards[card.name]"
-                :color-class="coloredCards[card.name]"
-              ></CardListItem>
-              <v-divider></v-divider>
-              <CardListItem
-                v-for="(card, j) in deck.side"
-                :key="j"
-                :card
-                :color="coloredCards[card.name]"
-                :color-class="coloredCards[card.name]"
-              ></CardListItem>
-            </VList>
-          </template>
-        </VCard>
+        <DecklistCard
+          :colored-cards="coloredCards"
+          :deck
+          :index="i"
+          @remove="removeDeck"
+        ></DecklistCard>
       </VCol>
     </VRow>
     <VRow v-if="isDev">
-      <VCol> Duplicates: {{ duplicates }} </VCol>
+      <VCol> Duplicates: {{ duplicates.size }} </VCol>
     </VRow>
     <VRow v-if="isDev">
       <VCol>
@@ -70,14 +65,29 @@
         </VList>
       </VCol>
     </VRow>
+    <v-row>
+      <VCol>
+        Inserisci i mazzi che vuoi usare al tuo prossimo team trio e verifica se le liste sono
+        compatibili. Ti ricordo che non puoi usare carte che non siano legali in pauper e non puoi
+        usare la stessa carta in due mazzi diversi, nemmeno una.
+      </VCol>
+      <VCol>
+        Quante volte vi è capitato di essere in crisi per non sapere quali carte avete già messo in
+        condivisione tra voi e quindi di dover stendere nuovamente tutte le carte per vedere quali
+        avete in due o più mazzi? Potete ora usare questa rapida utility per controllare che non ci
+        siano carte condivise tra i vostri mazzi. Potete salvere i link ai mazzi dei componenti del
+        vostro team in modo tale che possiate controllare le liste aggiornate semplicemente
+        ricaricando questa pagina.
+      </VCol>
+    </v-row>
   </VContainer>
 </template>
 
 <script setup lang="ts">
-import CardListItem from '@/components/trio/CardListItem.vue';
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import type { Decklist } from '@/services/cardService';
 import UploadDeckDialog from '@/components/trio/UploadDeckDialog.vue';
+import DecklistCard from '@/components/trio/DecklistCard.vue';
 
 const isDev = import.meta.env.DEV;
 
@@ -86,6 +96,13 @@ const maxCards = computed(() =>
 );
 
 const decks = ref<Decklist[]>([]);
+
+watch(decks.value, (newValue: Decklist[]) => {
+  if (newValue.length < 2) {
+    console.log("Clean");
+    duplicates.value.clear();
+  }
+});
 
 function removeDeck(index: number) {
   decks.value.splice(index, 1);
@@ -137,6 +154,7 @@ const basics = new Set<string>([
   'Snow-covered Mountain',
   'Snow-covered Forest',
 ]);
+
 const duplicates = ref(new Set<string>());
 
 const coloredCards = ref<{ [name: string]: string }>({});
@@ -200,7 +218,7 @@ async function isCardPauperLegal(cardName: string) {
     if (!response.ok) return false;
     const data = await response.json();
     const legal = data.legalities?.pauper === 'legal';
-    debugger;
+
     cards.value.push({ name: cardName, legal });
     localStorage.setItem('card.legal.' + encoded, data.legalities?.pauper);
     return legal;

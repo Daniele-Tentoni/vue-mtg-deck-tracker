@@ -58,7 +58,10 @@ describe('The app root url', () => {
     cy.get('[data-test="new-match-resume-text"]').should('include.text', 'Player');
 
     // Try to post the match.
-    cy.intercept('POST', `/rest/v1/matches*`, { statusCode: 200 }).as('create_match');
+    cy.intercept('POST', `/rest/v1/matches*`, (req) => {
+      expect(req.body).to.have.property('note', '');
+      req.reply({ statu})
+    }).as('create_match');
     cy.get('[data-test="new-match-create-action"]').click();
     cy.wait('@create_match')
     cy.get('[data-test="close-button"]').should('not.exist');
