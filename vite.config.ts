@@ -11,16 +11,5 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
-  },
-  build: {
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          vue: ['vue', 'vue-router'],
-          vuetify: ['vuetify'],
-          supabase: ['@supabase/supabase-js'],
-        },
-      },
-    },
-  },
+  }
 })
