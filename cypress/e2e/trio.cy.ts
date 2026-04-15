@@ -69,22 +69,22 @@ describe('The trio page', () => {
     });
     cy.visit('/trio');
     cy.get('[data-testid="button-open-upload-deck-dialog"]').click();
-    cy.get('[data-testid="textarea-upload-deck-dialog"]').type(f);
+    cy.get('[data-testid="textarea-upload-deck-dialog"]').type(f, { delay: 0 });
     cy.get('[data-testid="submit-button-upload-deck-dialog"]').click();
     cy.get('div').contains('Deck 1').should('exist');
     cy.get('div').contains('Refurbished Familiar').should('exist');
-    cy.get('[data-testid="textarea-upload-deck-dialog"]').type(s);
+    cy.get('[data-testid="textarea-upload-deck-dialog"]').type(s, { delay: 0 });
     cy.get('[data-testid="submit-button-upload-deck-dialog"]').click();
     cy.get('div').contains('Deck 2').should('exist');
     cy.get('div').contains('Gixian Infiltrator').should('exist');
     cy.get('[data-testid="close-button-upload-deck-dialog"]').click();
-    cy.get('[ data-testid="check-deck-button"]').click();
+    cy.get('[data-testid="check-deck-button"]').click();
     const getColor = (el: Element) => [...el.classList].find((c) => c.startsWith('bg-'));
     cy.get('[data-card-name="Cast Down"]').then(($el) => {
       const elements = $el.map((_, el) => el).get();
       // carta non duplicata
       if (elements.length === 1) {
-        const c = getColor(elements[0]!)
+        const c = getColor(elements[0]!);
         expect(c, `Cast Down should not have color`).equals(undefined);
         return;
       }
@@ -95,5 +95,37 @@ describe('The trio page', () => {
         expect(getColor(el), `Color mismatch for Cast Down`).to.equal(firstColor);
       });
     });
+  });
+
+  it('should load deck from url', () => {
+    cy.intercept('GET', 'https://api.scryfall.com/cards/named?exact=*', {
+      fixture: 'scryfall/card.json',
+    });
+
+    cy.intercept('GET', 'https://api.moxfield.com/v2/decks/*', (req) => {
+      const match = /decks\/(\w+)/.exec(req.url);
+      const deckMatch = match?.[1];
+      expect(deckMatch, 'Deck ID should be present in URL').to.be.a('string');
+      req.reply({
+        fixture: `moxfield/${deckMatch}.json`,
+      });
+    });
+
+    cy.visit('/trio');
+    cy.get('[data-testid="button-open-upload-deck-dialog"]').click();
+    cy.get('[data-testid="url-upload-deck-dialog"]').type(`https://www.moxfield.com/decks/cryo`);
+    cy.get('[data-testid="submit-button-upload-deck-dialog"]').click();
+    cy.get('[data-testid="url-upload-deck-dialog"]').type(`https://www.moxfield.com/decks/gixian`);
+    cy.get('[data-testid="submit-button-upload-deck-dialog"]').click();
+    cy.get('[data-testid="close-button-upload-deck-dialog"]').click();
+    cy.get('div').contains('Deck 1').should('exist');
+    cy.get('div').contains('Galvanic Blast').should('exist');
+    cy.get('[data-testid="check-deck-button"]').click();
+    cy.get('[data-testid="duplicates-warning"]').should(
+      'have.text',
+      'Your team decks contain duplicates',
+    );
+    cy.get('[data-testid="remove-deck-button-decklist-card"]').first().click();
+    cy.get('[data-testid="duplicates-warning"]').should('not.exist');
   });
 });

@@ -3,7 +3,12 @@
     <template #activator="{ props: dialog }">
       <VTooltip text="Aggiungi un nuovo deck">
         <template #activator="{ props: tooltip }">
-          <VBtn icon="fas fa-plus" v-bind="{ ...dialog, ...tooltip }" data-testid="button-open-upload-deck-dialog"></VBtn>
+          <VBtn
+            prepend-icon="fas fa-plus"
+            v-bind="{ ...dialog, ...tooltip }"
+            data-testid="button-open-upload-deck-dialog"
+            >Add</VBtn
+          >
         </template>
       </VTooltip>
     </template>
@@ -35,12 +40,13 @@
           </VRow>
           <VRow>
             <VCol>
-              Or download it from this url:
+              Or download it from this url (only moxfield is supported):
               <VTextField
                 type="url"
                 v-model="deckLink"
                 hide-details="auto"
                 label="Url"
+                data-testid="url-upload-deck-dialog"
               ></VTextField>
             </VCol>
           </VRow>
@@ -60,11 +66,14 @@
             data-testid="submit-button-upload-deck-dialog"
             >Submit</VBtn
           >
-          <VBtn @click="isActive.value = false" prepend-icon="fas fa-close" variant="outlined" data-testid="close-button-upload-deck-dialog"
-            >
-            Close
-            </VBtn
+          <VBtn
+            @click="isActive.value = false"
+            prepend-icon="fas fa-close"
+            variant="outlined"
+            data-testid="close-button-upload-deck-dialog"
           >
+            Close
+          </VBtn>
         </template>
       </VCard>
     </template>
@@ -72,10 +81,18 @@
 </template>
 
 <script setup lang="ts">
-import { isMainboard, isSideboard, trimCards, trimLines, type Card, type Decklist } from '@/services/cardService';
+import {
+  isMainboard,
+  isSideboard,
+  trimCards,
+  trimLines,
+  type Card,
+  type Decklist,
+} from '@/services/cardService';
 import { ref } from 'vue';
 import CloseButton from '@/components/dialogs/CloseButton.vue';
 import cryo from '../../../cypress/fixtures/moxfield/cryo.json';
+import { useTrioStore } from '@/stores/trio';
 
 const deckinput = ref<string>();
 const deckLink = ref<string>();
@@ -145,38 +162,23 @@ function countCards(v: unknown): number {
   return total;
 }
 
-async function downloadDeck(link: string) {
-  const deckId = link.split('/').pop();
-  const apiUrl = `https://api.moxfield.com/v2/decks/all/${deckId}`;
-  try {
-    loading.value = true;
-    const response = await fetch(apiUrl);
-    if (!response.ok) {
-      throw new Error(`Errore nel recupero del mazzo: ${response.statusText}`);
-    }
-    const data = await response.json();
-    console.log(data);
-  } catch {
-    console.log('Catturato');
-  } finally {
-    loading.value = false;
-  }
-
-  return cryo;
-}
+const trioStore = useTrioStore();
 
 async function enterDecklist() {
   if (deckLink.value) {
-    const d = await downloadDeck(deckLink.value);
+    const d = await trioStore.addUrl(deckLink.value);
+    if (d) {
+      const mainD = Object.entries(d.main);
+      const sideD = Object.entries(d.side);
+      console.log('Received ', mainD);
+      emits('getDeck', {
+        main: mainD.map((m) => ({ name: m[0], quantity: m[1].quantity })),
+        side: sideD.map((m) => ({ name: m[0], quantity: m[1].quantity })),
+      });
 
-    const mainD = Object.entries(d.mainboard);
-    const sideD = Object.entries(d.sideboard);
-    emits("getDeck", {
-      main: mainD.map((m) => ({ name: m[0], quantity: m[1].quantity })),
-      side: sideD.map((m) => ({ name: m[0], quantity: m[1].quantity })),
-    });
+      deckLink.value = undefined;
+    }
 
-    deckLink.value = undefined;
     return;
   }
 
@@ -185,9 +187,9 @@ async function enterDecklist() {
   }
 
   const deck = parseDeckList(deckinput.value);
-  emits("getDeck", deck);
+  emits('getDeck', deck);
   deckinput.value = undefined;
 }
 
-const emits = defineEmits(["getDeck"]);
+const emits = defineEmits(['getDeck']);
 </script>

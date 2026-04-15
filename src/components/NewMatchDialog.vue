@@ -120,7 +120,11 @@
                         Use this field to note something you want to remember about this game.
                       </VCol>
                       <VCol cols="12">
-                        <VTextarea label="Note" v-model="note" data-test="note-textarea-new-match-dialog"></VTextarea>
+                        <VTextarea
+                          label="Note"
+                          v-model="note"
+                          data-test="note-textarea-new-match-dialog"
+                        ></VTextarea>
                       </VCol>
                     </VRow>
                   </VExpansionPanelText>
