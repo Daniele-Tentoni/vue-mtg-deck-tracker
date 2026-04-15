@@ -59,8 +59,8 @@ describe('The app root url', () => {
 
     // Try to post the match.
     cy.intercept('POST', `/rest/v1/matches*`, (req) => {
-      expect(req.body).to.have.property('note', '');
-      req.reply({ statu})
+      expect(req.body).to.not.have.property('note');
+      req.reply({ status: 201 });
     }).as('create_match');
     cy.get('[data-test="new-match-create-action"]').click();
     cy.wait('@create_match')
