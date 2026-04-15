@@ -1,4 +1,3 @@
-
 export function isSideboard(line: string) {
   return line.toLowerCase().startsWith('sideboard');
 }

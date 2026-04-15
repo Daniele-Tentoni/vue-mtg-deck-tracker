@@ -3,7 +3,7 @@ import { supabase } from '@/services/supabaseService';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import type { Database } from '@/types/database.types';
-import type { PostgrestError } from '@supabase/supabase-js';
+import type { PostgrestError, PostgrestMaybeSingleResponse } from '@supabase/supabase-js';
 
 export type Archetype = Database['public']['Tables']['archetypes']['Row'];
 export type MatchType = Database['public']['Tables']['matches']['Row'];
@@ -68,5 +68,17 @@ export const useDeck = defineStore('match', () => {
     }
   }
 
-  return { matches, createMatchAsync, loadAsync, getByArchetype };
+  async function getByPlayer(playerId: string): Promise<MatchWithArchetypeType[]> {
+    const { data, error } = await supabase
+      .from('matches')
+      .select(MatchWithArchetypeQueryString)
+      .eq('creator', playerId);
+    if (error) {
+      throw error;
+    }
+
+    return data as unknown as MatchWithArchetypeType[];
+  }
+
+  return { matches, createMatchAsync, loadAsync, getByArchetype, getByPlayer };
 });

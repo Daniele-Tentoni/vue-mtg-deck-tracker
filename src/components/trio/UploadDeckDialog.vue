@@ -162,26 +162,6 @@ function countCards(v: unknown): number {
   return total;
 }
 
-async function downloadDeck(link: string) {
-  const deckId = link.split('/').pop();
-  const apiUrl = `https://api.moxfield.com/v2/decks/all/${deckId}`;
-  try {
-    loading.value = true;
-    const response = await fetch(apiUrl);
-    if (!response.ok) {
-      throw new Error(`Errore nel recupero del mazzo: ${response.statusText}`);
-    }
-    const data = await response.json();
-    console.log(data);
-  } catch {
-    console.log('Catturato');
-  } finally {
-    loading.value = false;
-  }
-
-  return cryo;
-}
-
 const trioStore = useTrioStore();
 
 async function enterDecklist() {
@@ -190,7 +170,7 @@ async function enterDecklist() {
     if (d) {
       const mainD = Object.entries(d.main);
       const sideD = Object.entries(d.side);
-      console.log("Received ", mainD)
+      console.log('Received ', mainD);
       emits('getDeck', {
         main: mainD.map((m) => ({ name: m[0], quantity: m[1].quantity })),
         side: sideD.map((m) => ({ name: m[0], quantity: m[1].quantity })),

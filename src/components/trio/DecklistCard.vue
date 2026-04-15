@@ -40,7 +40,7 @@
 
 <script setup lang="ts">
 import CardListItem from './CardListItem.vue';
-defineProps(["coloredCards", "deck", "index"])
+defineProps(['coloredCards', 'deck', 'index']);
 
 const emits = defineEmits(['remove']);
 

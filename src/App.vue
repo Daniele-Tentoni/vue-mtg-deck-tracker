@@ -108,8 +108,8 @@ const profileUrl = ref('');
 
     <VNavigationDrawer v-model="drawer" temporary>
       <VListItem title="Home" prepend-icon="fa fa-home" link to="/" />
-      <VListItem title="Trio" prepend-icon="fa fa-home" link to="/trio" />
-      <VListItem title="Pauper Archetypes" prepend-icon="fa fa-home" link to="/pauper" />
+      <VListItem title="Trio" prepend-icon="fa fa-cubes" link to="/trio" />
+      <VListItem title="Pauper Archetypes" prepend-icon="fa fa-p" link to="/pauper" />
       <VListItem
         prepend-icon="fab fa-github"
         link

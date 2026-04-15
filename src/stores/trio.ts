@@ -28,10 +28,9 @@ export const useTrioStore = defineStore('trio', () => {
         throw new Error(`Errore nel recupero del mazzo: ${response.statusText}`);
       }
       const data = await response.json();
-      console.log(data);
       return data;
-    } catch {
-      console.log('Catturato');
+    } catch (error) {
+      console.error('Errore nel recupero del mazzo:', error);
     } finally {
       loading.value = false;
     }

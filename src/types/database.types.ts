@@ -38,8 +38,10 @@ export type Database = {
           creator: string | null;
           game_one_win: number | null;
           id: number;
+          match_id: number | null;
           my_archetype: number | null;
           note: string | null;
+          provider: string | null;
           side_in: string | null;
           side_one_win: number | null;
           side_out: string | null;
@@ -52,8 +54,10 @@ export type Database = {
           creator?: string | null;
           game_one_win?: number | null;
           id?: number;
+          match_id?: number | null;
           my_archetype?: number | null;
           note?: string | null;
+          provider?: string | null;
           side_in?: string | null;
           side_one_win?: number | null;
           side_out?: string | null;
@@ -66,8 +70,10 @@ export type Database = {
           creator?: string | null;
           game_one_win?: number | null;
           id?: number;
+          match_id?: number | null;
           my_archetype?: number | null;
           note?: string | null;
+          provider?: string | null;
           side_in?: string | null;
           side_one_win?: number | null;
           side_out?: string | null;
@@ -106,6 +112,7 @@ export type Database = {
           external_id: string;
           id: number;
           name: string;
+          provider: string;
           state: number;
         };
         Insert: {
@@ -114,6 +121,7 @@ export type Database = {
           external_id: string;
           id: number;
           name: string;
+          provider?: string;
           state: number;
         };
         Update: {
@@ -122,6 +130,7 @@ export type Database = {
           external_id?: string;
           id?: number;
           name?: string;
+          provider?: string;
           state?: number;
         };
         Relationships: [];

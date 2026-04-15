@@ -99,7 +99,6 @@ const decks = ref<Decklist[]>([]);
 
 watch(decks.value, (newValue: Decklist[]) => {
   if (newValue.length < 2) {
-    console.log("Clean");
     duplicates.value.clear();
   }
 });
