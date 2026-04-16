@@ -18,6 +18,8 @@ jobs:
           cache: 'npm'
           node-version: 24
       - run: npm ci
+      - name: npm audit
+        run: npm audit --production
       - run: npm run format
       - run: npm run build
       - run: npm run test:e2e
