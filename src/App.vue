@@ -5,6 +5,7 @@ import RegisterDialog from './components/dialogs/RegisterDialog.vue';
 import { RouterView } from 'vue-router';
 import { useAccount } from './stores/account';
 import { useGravatar } from './composables/useGravatar';
+import { useDisplay } from 'vuetify';
 
 const drawer = ref<boolean>(false);
 
@@ -49,12 +50,18 @@ async function logout() {
 
 const avatarUrl = ref('');
 const profileUrl = ref('');
+
+const { mobile } = useDisplay();
+const isDev = import.meta.env.DEV;
 </script>
 
 <template>
   <VApp>
     <VAppBar>
-      <VAppBarNavIcon @click="drawer = !drawer"></VAppBarNavIcon>
+      <VAppBarNavIcon
+        @click="drawer = !drawer"
+        aria-label="Toggle drawer navigation"
+      ></VAppBarNavIcon>
 
       <VAppBarTitle> MDT </VAppBarTitle>
 
@@ -98,9 +105,16 @@ const profileUrl = ref('');
       <VRow>
         <VCol>Daniele Tentoni</VCol>
         <VSpacer></VSpacer>
+        <VCol cols="auto" v-if="isDev && mobile">
+          <VTooltip text="Is mobile">
+            <template #activator="{ props }">
+              <VIcon v-bind="props">fas fa-mobile</VIcon>
+            </template>
+          </VTooltip>
+        </VCol>
         <VCol cols="auto">
-          <a href="https://github.com/daniele-tentoni/vue-mtg-deck-tracker" target="_blank">
-            <VIcon>fab fa-github</VIcon>
+          <a href="https://github.com/daniele-tentoni/vue-mtg-deck-tracker" target="_blank" aria-label="Go to official repository">
+            <VIcon aria-label="Github">fab fa-github</VIcon>
           </a>
         </VCol>
       </VRow>
