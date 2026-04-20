@@ -23,3 +23,18 @@ jobs:
       - run: npm run format
       - run: npm run build
       - run: npm run test:e2e
+
+  lhci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v5
+        with:
+          name: build
+      - uses: actions/setup-node@v6
+        with:
+          cache: 'npm'
+          node-version: 24
+      - name: Run Lighthouse CI
+        run: |
+          npm install -g @lhci/cli@0.15.x
+          lhci autorun
