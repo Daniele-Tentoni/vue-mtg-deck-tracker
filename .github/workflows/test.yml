@@ -26,6 +26,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: build
+          path: dist
 
   lhci:
     runs-on: ubuntu-latest
