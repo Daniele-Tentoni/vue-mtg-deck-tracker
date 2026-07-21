@@ -1,6 +1,9 @@
 <template>
   <VCard>
-    <template #title> Deck {{ index + 1 }} </template>
+    <template #title>
+      <span v-if="!deckEditing" @click="deckEditing = true">{{ deckName }}</span>
+      <VTextField v-else v-model="deckName"></VTextField>
+    </template>
     <template #append>
       <v-tooltip text="Remove deck from comparison">
         <template #activator="{ props }">
@@ -39,12 +42,18 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue';
 import CardListItem from './CardListItem.vue';
-defineProps(['coloredCards', 'deck', 'index']);
+
+const props = defineProps(['coloredCards', 'deck', 'index']);
 
 const emits = defineEmits(['remove']);
 
 function removeDeck(i: number) {
   emits('remove', i);
 }
+
+const deckEditing = ref(false);
+
+const deckName = ref(`Deck ${props.index + 1}`);
 </script>

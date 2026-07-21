@@ -70,7 +70,7 @@ async function login() {
     if (error) {
       loginError.value = error.message;
     } else {
-      alert('Controlla la tua casella di posta per il link di login');
+      alert('Check your email inbox for the login link!');
       model.value = false;
     }
   } finally {

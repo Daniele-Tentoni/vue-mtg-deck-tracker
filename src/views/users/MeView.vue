@@ -6,23 +6,35 @@
     </v-row>
     <v-row v-else>
       <v-col>
-        <v-list>
-          <v-list-item v-for="m in matches" :key="m.id">
-            <template #prepend>
-              {{ m.tournament_id }}
-            </template>
-            <template #title>
-              {{ m.their_archetype.name }}
-            </template>
-            <template #subtitle>
-              {{ m.my_archetype.name }}
-            </template>
-            <template #default v-if="m.note">{{ m.note }}</template>
-            <template #append>
-              <v-icon>fa fa-trash</v-icon>
-            </template>
-          </v-list-item>
-        </v-list>
+        <v-row>
+          <v-col>
+            <v-list>
+              <v-list-item v-for="m in matches" :key="m.id">
+                <template #prepend> T:&nbsp;{{ m.tournament_id }} </template>
+                <template #title>
+                  <archetype-chip :name="m.their_archetype.name"></archetype-chip>
+                </template>
+                <template #subtitle>
+                  <archetype-chip :name="m.my_archetype.name"></archetype-chip>
+                </template>
+                <template #default v-if="m.note">{{ m.note }}</template>
+                <template #append>
+                  <v-icon>fa fa-trash</v-icon>
+                </template>
+              </v-list-item>
+            </v-list>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <h2>Your tournaments</h2>
+            <v-list>
+              <v-list-item v-for="tournament in tournamentStore.t" :key="tournament.id">
+                {{ tournament }}
+              </v-list-item>
+            </v-list>
+          </v-col>
+        </v-row>
       </v-col>
     </v-row>
     <v-row v-if="errorDeck">
@@ -34,8 +46,10 @@
 </template>
 
 <script setup lang="ts">
+import ArchetypeChip from '@/components/archetype/ArchetypeChip.vue';
 import { useAccount } from '@/stores/account';
 import { useDeck, type MatchWithArchetypeType } from '@/stores/matches';
+import { useTournament } from '@/stores/tournaments';
 import { PostgrestError } from '@supabase/supabase-js';
 import { computed, onMounted, ref, watch } from 'vue';
 import { VIcon } from 'vuetify/components';
@@ -54,6 +68,8 @@ const loading = ref(false);
 const decks = useDeck();
 
 const errorDeck = ref<string>();
+
+const tournamentStore = useTournament();
 
 async function loadDecks() {
   if (!me.account) return;
@@ -75,12 +91,33 @@ async function loadDecks() {
   }
 }
 
+async function loadTournaments() {
+  if (!me.account) return;
+
+  try {
+    loading.value = true;
+    matches.value = [];
+    await tournamentStore.loadAsync(me.account.id);
+  } catch (error) {
+    console.error('Error loading matches: ', error);
+    if (error instanceof PostgrestError) {
+      errorDeck.value = error.message;
+    }
+  } finally {
+    loading.value = false;
+  }
+}
+
 watch(
   () => me.account,
   async () => {
     await loadDecks();
+    await loadTournaments();
   },
 );
 
-onMounted(async () => await loadDecks());
+onMounted(async () => {
+  await loadDecks();
+  await loadTournaments();
+});
 </script>

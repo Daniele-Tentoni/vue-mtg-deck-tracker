@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import ArchetypeAvatar from '@/components/ArchetypeAvatar.vue';
 import NewMatchDialog from '@/components/NewMatchDialog.vue';
 import WinrateTooltip from '@/components/WinrateTooltip.vue';
 import { Deck, isArch } from '@/models/Deck';
@@ -88,15 +89,6 @@ const isDev = import.meta.env.DEV;
 const { mobile } = useDisplay();
 
 const archetypeStore = useArchetype();
-
-const imageUrl = computed(() => (name: string) => {
-  const arc = archetypeStore.archetypes.find((f) => f.name === name);
-  if (arc?.image) {
-    return arc.image;
-  }
-
-  return 'https://cards.scryfall.io/art_crop/front/5/2/52558748-6893-4c72-a9e2-e87d31796b59.jpg?1559959349';
-});
 </script>
 
 <template>
@@ -112,9 +104,7 @@ const imageUrl = computed(() => (name: string) => {
       <VCol>
         <VDataTable :headers :items item-value="id" :loading v-model:sort-by="sortBy">
           <template v-slot:[`item.name`]="{ item }">
-            <VAvatar v-if="!mobile" class="me-2" data-test="archetype-image"
-              ><VImg :src="imageUrl(item.name)" :alt="item.name"></VImg
-            ></VAvatar>
+            <ArchetypeAvatar v-if="!mobile" :name="item.name"></ArchetypeAvatar>
             <RouterLink :to="{ name: 'deck-home', params: { format, deck: item.name } }">
               {{ item.name }}
             </RouterLink>

@@ -14,8 +14,8 @@
     </template>
     <template #default="{ isActive }">
       <VCard>
-        <template #title> Nuovo deck </template>
-        <template #subtitle>Inserisci un nuovo mazzo</template>
+        <template #title> New deck </template>
+        <template #subtitle>Insert a new deck in the comparison</template>
         <template #append>
           <CloseButton @close="isActive.value = false"></CloseButton>
         </template>
@@ -91,7 +91,6 @@ import {
 } from '@/services/cardService';
 import { ref } from 'vue';
 import CloseButton from '@/components/dialogs/CloseButton.vue';
-import cryo from '../../../cypress/fixtures/moxfield/cryo.json';
 import { useTrioStore } from '@/stores/trio';
 
 const deckinput = ref<string>();
