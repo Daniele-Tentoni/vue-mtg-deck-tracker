@@ -6,7 +6,7 @@ import { Deck, isArch } from '@/models/Deck';
 import { useAccount } from '@/stores/account';
 import { useArchetype } from '@/stores/archetype';
 import { useDeck } from '@/stores/matches';
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';
 import { useDisplay } from 'vuetify';
 import type { SortItem } from 'vuetify/lib/components/VDataTable/composables/sort.mjs';
@@ -71,14 +71,29 @@ const items = computed(() => {
 });
 
 const loading = ref(false);
+const timeframe = ref<'all' | '4w' | '4m'>('all');
+const timeframeOptions = [
+  { title: 'All time', value: 'all' },
+  { title: 'Last 4 weeks', value: '4w' },
+  { title: 'Last 4 months', value: '4m' },
+];
 
 const sortBy = ref<SortItem[]>([{ key: 'winrate', order: 'desc' }]);
 
 onMounted(async () => {
   try {
     loading.value = true;
-    await decks.loadAsync();
+    await decks.loadAsync(timeframe.value);
     await archetypeStore.loadAsync();
+  } finally {
+    loading.value = false;
+  }
+});
+
+watch(timeframe, async (newTimeframe) => {
+  try {
+    loading.value = true;
+    await decks.loadAsync(newTimeframe);
   } finally {
     loading.value = false;
   }
@@ -96,6 +111,16 @@ const archetypeStore = useArchetype();
     <VRow>
       <VCol> {{ formatName }} win rates </VCol>
       <VSpacer></VSpacer>
+      <VCol cols="12" md="3" lg="2">
+        <VSelect
+          v-model="timeframe"
+          :items="timeframeOptions"
+          label="Timeframe"
+          density="comfortable"
+          variant="outlined"
+          hide-details
+        ></VSelect>
+      </VCol>
       <VCol cols="auto" v-if="account.authenticated">
         <NewMatchDialog></NewMatchDialog>
       </VCol>
