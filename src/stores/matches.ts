@@ -3,7 +3,7 @@ import { supabase } from '@/services/supabaseService';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 import type { Database } from '@/types/database.types';
-import type { PostgrestError, PostgrestMaybeSingleResponse } from '@supabase/supabase-js';
+import type { PostgrestError } from '@supabase/supabase-js';
 
 export type Archetype = Database['public']['Tables']['archetypes']['Row'];
 export type MatchType = Database['public']['Tables']['matches']['Row'];
@@ -12,6 +12,24 @@ export type MatchWithArchetypeType = MatchType & {
   their_archetype: Pick<Database['public']['Tables']['archetypes']['Row'], 'id' | 'name'>;
 };
 type MatchInsert = Database['public']['Tables']['matches']['Insert'];
+export type MatchTimeFilter = 'all' | '4w' | '4m';
+
+function getStartDateIso(filter: MatchTimeFilter): string | undefined {
+  if (filter === 'all') {
+    return undefined;
+  }
+
+  const now = new Date();
+  const start = new Date(now);
+
+  if (filter === '4w') {
+    start.setDate(start.getDate() - 28);
+  } else {
+    start.setMonth(start.getMonth() - 4);
+  }
+
+  return start.toISOString();
+}
 
 const MatchWithArchetypeQueryString = `
     *,
@@ -46,10 +64,15 @@ export const useDeck = defineStore('match', () => {
     return data;
   }
 
-  async function loadAsync() {
-    const { data } = (await supabase
-      .from('matches')
-      .select(MatchWithArchetypeQueryString)) as unknown as { data: MatchWithArchetypeType[] };
+  async function loadAsync(filter: MatchTimeFilter = 'all') {
+    const startDateIso = getStartDateIso(filter);
+
+    let query = supabase.from('matches').select(MatchWithArchetypeQueryString);
+    if (startDateIso) {
+      query = query.gte('created_at', startDateIso);
+    }
+
+    const { data } = (await query) as unknown as { data: MatchWithArchetypeType[] };
     if (data) {
       matches.value = [];
       data.forEach((match) => matches.value.push(new MatchClass(match)));
@@ -58,21 +81,41 @@ export const useDeck = defineStore('match', () => {
 
   async function getByArchetype(
     archetypeId: number,
+    filter: MatchTimeFilter = 'all',
   ): Promise<MatchWithArchetypeType[] | undefined> {
-    const { data } = await supabase
+    const startDateIso = getStartDateIso(filter);
+
+    let query = supabase
       .from('matches')
       .select(MatchWithArchetypeQueryString)
       .or(`my_archetype.eq.${archetypeId},their_archetype.eq.${archetypeId}`);
+
+    if (startDateIso) {
+      query = query.gte('created_at', startDateIso);
+    }
+
+    const { data } = await query;
     if (data) {
       return data as unknown as MatchWithArchetypeType[];
     }
   }
 
-  async function getByPlayer(playerId: string): Promise<MatchWithArchetypeType[]> {
-    const { data, error } = await supabase
+  async function getByPlayer(
+    playerId: string,
+    filter: MatchTimeFilter = 'all',
+  ): Promise<MatchWithArchetypeType[]> {
+    const startDateIso = getStartDateIso(filter);
+
+    let query = supabase
       .from('matches')
       .select(MatchWithArchetypeQueryString)
       .eq('creator', playerId);
+
+    if (startDateIso) {
+      query = query.gte('created_at', startDateIso);
+    }
+
+    const { data, error } = await query;
     if (error) {
       throw error;
     }
