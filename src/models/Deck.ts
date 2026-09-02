@@ -107,7 +107,8 @@ export class Deck {
   }
 
   gamesWinRate(): string {
-    return new Intl.NumberFormat('it-IT', {
+    const locale = localStorage.getItem('locale') || 'en';
+    return new Intl.NumberFormat(locale, {
       style: 'percent',
       minimumFractionDigits: 0,
       maximumFractionDigits: 2,

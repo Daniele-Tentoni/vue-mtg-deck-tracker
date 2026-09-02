@@ -1,31 +1,31 @@
 <template>
   <VDialog max-width="480px">
     <template #activator="{ props: dialog }">
-      <VTooltip text="Aggiungi un nuovo deck">
+      <VTooltip :text="t('uploadDeck.tooltip')">
         <template #activator="{ props: tooltip }">
           <VBtn
             prepend-icon="fas fa-plus"
             v-bind="{ ...dialog, ...tooltip }"
             data-testid="button-open-upload-deck-dialog"
-            >Add</VBtn
+            >{{ t('common.add') }}</VBtn
           >
         </template>
       </VTooltip>
     </template>
     <template #default="{ isActive }">
       <VCard>
-        <template #title> New deck </template>
-        <template #subtitle>Insert a new deck in the comparison</template>
+        <template #title> {{ t('uploadDeck.title') }} </template>
+        <template #subtitle>{{ t('uploadDeck.subtitle') }}</template>
         <template #append>
           <CloseButton @close="isActive.value = false"></CloseButton>
         </template>
         <template #text>
           <VRow>
             <VCol>
-              Paste your list here:
+              {{ t('uploadDeck.pasteList') }}
               <VTextarea
                 v-model="deckinput"
-                label="Deck input"
+                :label="t('uploadDeck.deckInput')"
                 auto-grow
                 clearable
                 counter
@@ -40,21 +40,18 @@
           </VRow>
           <VRow>
             <VCol>
-              Or download it from this url (only moxfield is supported):
+              {{ t('uploadDeck.fromUrl') }}
               <VTextField
                 type="url"
                 v-model="deckLink"
                 hide-details="auto"
-                label="Url"
+                :label="t('uploadDeck.url')"
                 data-testid="url-upload-deck-dialog"
               ></VTextField>
             </VCol>
           </VRow>
           <VRow>
-            <VCol>
-              When you are done, you can close this window by clicking on the close button&nbsp;
-              <VIcon>fas fa-close</VIcon>.
-            </VCol>
+            <VCol> {{ t('uploadDeck.closeHint') }}&nbsp; <VIcon>fas fa-close</VIcon>. </VCol>
           </VRow>
         </template>
         <template #actions>
@@ -64,7 +61,7 @@
             variant="elevated"
             prepend-icon="fas fa-check"
             data-testid="submit-button-upload-deck-dialog"
-            >Submit</VBtn
+            >{{ t('uploadDeck.submit') }}</VBtn
           >
           <VBtn
             @click="isActive.value = false"
@@ -72,7 +69,7 @@
             variant="outlined"
             data-testid="close-button-upload-deck-dialog"
           >
-            Close
+            {{ t('uploadDeck.close') }}
           </VBtn>
         </template>
       </VCard>
@@ -92,10 +89,12 @@ import {
 import { ref } from 'vue';
 import CloseButton from '@/components/dialogs/CloseButton.vue';
 import { useTrioStore } from '@/stores/trio';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 const deckinput = ref<string>();
 const deckLink = ref<string>();
-const loading = ref(false);
 
 const placeholder = `Mainboard:
 4 Lightning Bolt

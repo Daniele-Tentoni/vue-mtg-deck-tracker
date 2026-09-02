@@ -1,0 +1,173 @@
+{
+  "common": {
+    "close": "Chiudi",
+    "submit": "Invia",
+    "add": "Aggiungi",
+    "check": "Controlla",
+    "note": "Nota",
+    "unknown": "sconosciuto"
+  },
+  "app": {
+    "auth": {
+      "notAuthenticated": "Non autenticato",
+      "logout": "Esci",
+      "login": "Accedi",
+      "register": "Registrati",
+      "gravatar": "Gravatar"
+    },
+    "nav": {
+      "home": "Home",
+      "trio": "Trio",
+      "pauperArchetypes": "Archetipi Pauper"
+    },
+    "contribute": "Se vuoi contribuire, esplora il repository Github e apri una issue o invia una pull request.",
+    "language": {
+      "title": "Lingua",
+      "english": "Inglese",
+      "italian": "Italiano"
+    }
+  },
+  "home": {
+    "welcome": "Benvenuto, esplora il meta pauper."
+  },
+  "notFound": {
+    "message": "La pagina che stai cercando, {path}, non esiste."
+  },
+  "dialogs": {
+    "login": {
+      "title": "Accedi",
+      "description": "Ti chiedo solo l'email, cosi non devi ricordare un'altra password. Ti inviero una mail con un link che dovrai cliccare per tornare su questo sito.",
+      "needAccount": "Se hai bisogno di un account,",
+      "clickHere": "clicca qui",
+      "emailPlaceholder": "Email",
+      "emailSent": "Controlla la tua casella email per il link di accesso!"
+    },
+    "register": {
+      "title": "Registrati",
+      "description": "Ti chiedo solo un'email per registrarti, niente altre password. Attiva il tuo account cliccando sul link nell'email che riceverai e fai accesso la prossima volta con la stessa email.",
+      "alreadyAccount": "Se hai gia un account,",
+      "clickHere": "clicca qui",
+      "emailPlaceholder": "Email",
+      "emailSent": "Controlla la tua casella email per il link di registrazione!"
+    },
+    "newMatch": {
+      "tooltip": "Aggiungi nuovo match",
+      "button": "Nuovo match",
+      "title": "Nuovo match",
+      "selectDecks": "Seleziona i mazzi giocati da te e dal tuo avversario.",
+      "yourDeckLabel": "Il tuo mazzo",
+      "theirDeckLabel": "Mazzo avversario",
+      "noArchetypeFound": "Nessun archetipo trovato",
+      "resultInstructions": "Indica le partite vinte da te nella prima colonna e quelle vinte dal tuo avversario nella seconda.",
+      "leftButton": "Pulsante sinistro: Tu",
+      "rightButton": "Pulsante destro: Avversario",
+      "gameOne": "Game uno",
+      "firstSideGame": "Primo game post-side",
+      "secondSideGame": "Secondo game post-side",
+      "thirdGameHint": "Devi indicare i primi due game prima del terzo",
+      "noteHelp": "Usa questo campo per annotare qualcosa che vuoi ricordare su questa partita.",
+      "missingArchetypeHelp": "Se mancano archetipi, apri una issue su Github.",
+      "create": "Crea",
+      "yourDeckRequired": "Devi specificare il tuo mazzo",
+      "theirDeckRequired": "Devi specificare il mazzo avversario",
+      "completeResults": "Completa i risultati prima di creare il match",
+      "busy": "Il sistema e occupato, riprova piu tardi",
+      "saveError": "Impossibile salvare il match in questo momento",
+      "selectYourArchetype": "Seleziona il tuo archetipo",
+      "selectTheirArchetype": "Seleziona l'archetipo avversario",
+      "summary": {
+        "p1GameOne": "Il giocatore 1 ha vinto game uno",
+        "p2GameOne": "Il giocatore 2 ha vinto game uno",
+        "p1FirstSide": "Il giocatore 1 ha vinto il primo game post-side",
+        "p2FirstSide": "Il giocatore 2 ha vinto il primo game post-side",
+        "p1SecondSide": "Il giocatore 1 ha vinto il secondo game post-side",
+        "p2SecondSide": "Il giocatore 2 ha vinto il secondo game post-side"
+      }
+    }
+  },
+  "matchButtons": {
+    "player1Tooltip": "Il giocatore 1 ha vinto il game",
+    "player2Tooltip": "Il giocatore 2 ha vinto il game",
+    "you": "Tu",
+    "opponent": "Avversario",
+    "youWonAria": "Hai vinto il game",
+    "opponentWonAria": "L'avversario ha vinto il game"
+  },
+  "archetypes": {
+    "headers": {
+      "archetype": "Archetipo",
+      "winrate": "Winrate",
+      "gameWon": "Partite vinte",
+      "gamesPlayed": "Partite giocate",
+      "tier": "Tier"
+    },
+    "timeframe": {
+      "label": "Periodo",
+      "all": "Sempre",
+      "last4Weeks": "Ultime 4 settimane",
+      "last4Months": "Ultimi 4 mesi"
+    },
+    "title": "Win rate {format}",
+    "sections": {
+      "needDataTitle": "Mi servono piu dati",
+      "needDataBody": "Ho bisogno di piu dati per migliorare precisione di winrate e metriche. Puoi aiutare il database inviando i tuoi risultati oppure registrandoti e caricandoli.",
+      "contributeTitle": "Come puoi contribuire",
+      "contributeBody": "Puoi aprire una Issue o inviare una Pull Request per migliorare questo sito, oppure creare un account e iniziare a inviare i tuoi dati di gioco.",
+      "winrateTitle": "Come calcolo i win rate",
+      "winrateBody": "(Game uno vinti + primo game post-side vinti + secondo game post-side vinti) / totale game giocati. Un pareggio mantiene il win rate al 50%. La somma tra win rate A vs B e B vs A dovrebbe essere 100%.",
+      "tiersTitle": "Come calcolo i tier",
+      "tiersBody": "Gli archetipi sopra il 55% sono Tier 1, tra 50% e 55% sono Tier 2, sotto il 50% sono Tier 3."
+    },
+    "debugItems": "Elementi"
+  },
+  "deckView": {
+    "headers": {
+      "archetype": "Archetipo",
+      "theirArchetype": "Archetipo avversario",
+      "score": "Risultato",
+      "date": "Data"
+    },
+    "collapse": "Comprimi",
+    "moreInfo": "Maggiori info"
+  },
+  "me": {
+    "header": "Io {email}, utente dal {since}",
+    "tournaments": "I tuoi tornei"
+  },
+  "trio": {
+    "duplicatesWarning": "I mazzi del team contengono duplicati",
+    "startCheck": "Avvia il controllo mazzi",
+    "checkInProgress": "Controllo in corso",
+    "duplicatesCount": "Duplicati: {count}",
+    "intro": "Inserisci i mazzi che vuoi usare al prossimo Team Trio e verifica se le liste sono compatibili. Ricorda che non puoi usare carte non legali in Pauper e non puoi usare la stessa carta in due mazzi diversi, nemmeno una copia.",
+    "details": "Quante volte vi e capitato di non sapere quali carte erano gia condivise tra i mazzi e doverle ristendere tutte per controllare i duplicati? Ora puoi usare questa utility rapida per verificare che non ci siano carte condivise. Salva i link ai mazzi dei compagni per ricontrollare le liste aggiornate semplicemente ricaricando la pagina."
+  },
+  "uploadDeck": {
+    "tooltip": "Aggiungi un nuovo mazzo",
+    "title": "Nuovo mazzo",
+    "subtitle": "Inserisci un nuovo mazzo nel confronto",
+    "pasteList": "Incolla la tua lista qui:",
+    "deckInput": "Input mazzo",
+    "fromUrl": "Oppure scaricalo da questo URL (solo Moxfield supportato):",
+    "url": "URL",
+    "closeHint": "Quando hai finito, puoi chiudere questa finestra cliccando sul pulsante di chiusura.",
+    "submit": "Invia",
+    "close": "Chiudi"
+  },
+  "decklistCard": {
+    "removeDeck": "Rimuovi mazzo dal confronto",
+    "deckName": "Mazzo {index}"
+  },
+  "cardListItem": {
+    "notPauperLegal": "Questa carta non e legale in Pauper",
+    "duplicated": "Questa carta e duplicata nel tuo team"
+  },
+  "winrateTooltip": {
+    "gamesWon": "Game vinti: {count}",
+    "gamesPlayed": "Game giocati: {count}"
+  },
+  "trioStore": {
+    "fetchDeckError": "Errore durante il download del mazzo: {statusText}",
+    "fetchDeckErrorLog": "Errore durante il download del mazzo:"
+  }
+}

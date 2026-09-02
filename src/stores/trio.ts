@@ -1,6 +1,7 @@
 import type { Decklist } from '@/services/cardService';
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
+import { i18n } from '@/i18n';
 
 export const useTrioStore = defineStore('trio', () => {
   const loading = ref(false);
@@ -25,12 +26,14 @@ export const useTrioStore = defineStore('trio', () => {
         },
       });
       if (!response.ok) {
-        throw new Error(`Errore nel recupero del mazzo: ${response.statusText}`);
+        throw new Error(
+          i18n.global.t('trioStore.fetchDeckError', { statusText: response.statusText }),
+        );
       }
       const data = await response.json();
       return data;
     } catch (error) {
-      console.error('Errore nel recupero del mazzo:', error);
+      console.error(i18n.global.t('trioStore.fetchDeckErrorLog'), error);
     } finally {
       loading.value = false;
     }

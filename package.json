@@ -26,11 +26,13 @@
     "blueimp-md5": "^2.19.0",
     "pinia": "^4.0.3",
     "vue": "^3.5.29",
+    "vue-i18n": "^11.4.10",
     "vue-router": "^5.2.0",
     "vuetify": "^4.1.5"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^7.3.0",
+    "@intlify/eslint-plugin-vue-i18n": "^4.5.1",
     "@tsconfig/node24": "^24.0.4",
     "@types/blueimp-md5": "^2.18.2",
     "@types/jsdom": "^30.0.0",
@@ -58,6 +60,6 @@
     "vue-tsc": "^3.3.1"
   },
   "allowScripts": {
-    "cypress@15.18.1": true
+    "cypress@15.21.0": true
   }
 }

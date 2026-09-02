@@ -10,6 +10,9 @@ import { computed, onMounted, ref, watch } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';
 import { useDisplay } from 'vuetify';
 import type { SortItem } from 'vuetify/lib/components/VDataTable/composables/sort.mjs';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 const route = useRoute();
 const format = computed(() => route.params.format?.toString());
@@ -17,43 +20,44 @@ const formatName = computed(() =>
   format.value?.substring(0, 1).toUpperCase().concat(format.value.substring(1)),
 );
 
-const _headers = [
-  {
-    title: 'Archetype',
-    key: 'name',
-  },
-  {
-    title: 'Winrate',
-    key: 'winrate',
-    sortRaw(a: Deck, b: Deck) {
-      return a.rawDecimal() - b.rawDecimal();
+const headers = computed(() => {
+  const localizedHeaders = [
+    {
+      title: t('archetypes.headers.archetype'),
+      key: 'name',
     },
-  },
-  {
-    title: 'Game won',
-    key: 'game_won',
-    sortRaw(a: Deck, b: Deck) {
-      return b.gamesWon() - a.gamesWon();
+    {
+      title: t('archetypes.headers.winrate'),
+      key: 'winrate',
+      sortRaw(a: Deck, b: Deck) {
+        return a.rawDecimal() - b.rawDecimal();
+      },
     },
-    mobile: false,
-  },
-  {
-    title: 'Games played',
-    key: 'all_games',
-    sortRaw(a: Deck, b: Deck) {
-      return b.gamesPlayed() - a.gamesPlayed();
+    {
+      title: t('archetypes.headers.gameWon'),
+      key: 'game_won',
+      sortRaw(a: Deck, b: Deck) {
+        return b.gamesWon() - a.gamesWon();
+      },
+      mobile: false,
     },
-    mobile: false,
-  },
-  {
-    title: 'Tier',
-    key: 'tier',
-    sortable: false,
-  },
-];
-const headers = computed(() =>
-  _headers.filter((f) => f.mobile === undefined || f.mobile === mobile.value),
-);
+    {
+      title: t('archetypes.headers.gamesPlayed'),
+      key: 'all_games',
+      sortRaw(a: Deck, b: Deck) {
+        return b.gamesPlayed() - a.gamesPlayed();
+      },
+      mobile: false,
+    },
+    {
+      title: t('archetypes.headers.tier'),
+      key: 'tier',
+      sortable: false,
+    },
+  ];
+
+  return localizedHeaders.filter((f) => f.mobile === undefined || f.mobile === mobile.value);
+});
 
 const account = useAccount();
 
@@ -72,11 +76,11 @@ const items = computed(() => {
 
 const loading = ref(false);
 const timeframe = ref<'all' | '4w' | '4m'>('all');
-const timeframeOptions = [
-  { title: 'All time', value: 'all' },
-  { title: 'Last 4 weeks', value: '4w' },
-  { title: 'Last 4 months', value: '4m' },
-];
+const timeframeOptions = computed(() => [
+  { title: t('archetypes.timeframe.all'), value: 'all' },
+  { title: t('archetypes.timeframe.last4Weeks'), value: '4w' },
+  { title: t('archetypes.timeframe.last4Months'), value: '4m' },
+]);
 
 const sortBy = ref<SortItem[]>([{ key: 'winrate', order: 'desc' }]);
 
@@ -109,13 +113,13 @@ const archetypeStore = useArchetype();
 <template>
   <VContainer fluid>
     <VRow>
-      <VCol> {{ formatName }} win rates </VCol>
+      <VCol> {{ t('archetypes.title', { format: formatName }) }} </VCol>
       <VSpacer></VSpacer>
       <VCol cols="12" md="3" lg="2">
         <VSelect
           v-model="timeframe"
           :items="timeframeOptions"
-          label="Timeframe"
+          :label="t('archetypes.timeframe.label')"
           density="comfortable"
           variant="outlined"
           hide-details
@@ -151,42 +155,35 @@ const archetypeStore = useArchetype();
     </VRow>
     <VRow>
       <VCol cols="12" md="6">
-        <p class="text-h6">I'm looking for more data!</p>
+        <p class="text-h6">{{ t('archetypes.sections.needDataTitle') }}</p>
         <p>
-          I need more data to be more accurated calculating win rates and other metrics. You can
-          contact me to help growing the database sending me yor results or registering and
-          uploading them.
+          {{ t('archetypes.sections.needDataBody') }}
         </p>
       </VCol>
       <VCol cols="12" md="6">
-        <p class="text-h6">How you can contribute</p>
+        <p class="text-h6">{{ t('archetypes.sections.contributeTitle') }}</p>
         <p>
-          You can open an Issue or submit a Pull request to help me developing this site, or you can
-          create now an account and start submit your game data.
+          {{ t('archetypes.sections.contributeBody') }}
         </p>
       </VCol>
       <VCol cols="12" md="6">
-        <p class="text-h6">How I calculate win rates</p>
+        <p class="text-h6">{{ t('archetypes.sections.winrateTitle') }}</p>
         <p>
-          Number of game one won + number of first side game won + number of second side won / total
-          number of games played. A match finished with a draw cause the win rate to be flatten to
-          the 50%. The sum of my win rate vs another archetype and the my rate of another archetype
-          vs must be the 100%.
+          {{ t('archetypes.sections.winrateBody') }}
         </p>
       </VCol>
       <VCol cols="12" md="6">
-        <p class="text-h6">How I calculate tiers</p>
+        <p class="text-h6">{{ t('archetypes.sections.tiersTitle') }}</p>
         <p>
-          An archetype with winrate above the 55% will be marked as Tier 1, below 55% will be a Tier
-          2, below 50% a Tier 3. Those indicates strong decks, good decks and others. No other
-          tiers, no middle tiers.
+          {{ t('archetypes.sections.tiersBody') }}
         </p>
       </VCol>
     </VRow>
     <VRow v-if="isDev">
       <VCol>
         <VExpansionPanels>
-          <VExpansionPanel title="Items" :text="JSON.stringify(items)"> </VExpansionPanel>
+          <VExpansionPanel :title="t('archetypes.debugItems')" :text="JSON.stringify(items)">
+          </VExpansionPanel>
         </VExpansionPanels>
       </VCol>
     </VRow>

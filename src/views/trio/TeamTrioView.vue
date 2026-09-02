@@ -3,7 +3,7 @@
     <VRow class="align-baseline">
       <VCol cols="auto" v-if="duplicates.size > 0">
         <v-alert
-          text="Your team decks contain duplicates"
+          :text="t('trio.duplicatesWarning')"
           type="warning"
           data-testid="duplicates-warning"
         ></v-alert>
@@ -13,14 +13,14 @@
         <UploadDeckDialog @get-deck="getDeck"></UploadDeckDialog>
       </VCol>
       <VCol cols="auto">
-        <v-tooltip text="Start the deck checking">
+        <v-tooltip :text="t('trio.startCheck')">
           <template #activator="{ props }">
             <VBtn
               v-bind="props"
               prepend-icon="fas fa-check"
               @click="check"
               data-testid="check-deck-button"
-              >Check</VBtn
+              >{{ t('common.check') }}</VBtn
             >
           </template>
         </v-tooltip>
@@ -28,7 +28,7 @@
     </VRow>
     <VRow>
       <VCol>
-        <v-tooltip text="Check in progress">
+        <v-tooltip :text="t('trio.checkInProgress')">
           <template #activator="{ props }">
             <VProgressLinear
               v-bind="props"
@@ -51,7 +51,7 @@
       </VCol>
     </VRow>
     <VRow v-if="isDev">
-      <VCol> Duplicates: {{ duplicates.size }} </VCol>
+      <VCol> {{ t('trio.duplicatesCount', { count: duplicates.size }) }} </VCol>
     </VRow>
     <VRow v-if="isDev">
       <VCol>
@@ -67,17 +67,10 @@
     </VRow>
     <v-row>
       <VCol>
-        Inserisci i mazzi che vuoi usare al tuo prossimo team trio e verifica se le liste sono
-        compatibili. Ti ricordo che non puoi usare carte che non siano legali in pauper e non puoi
-        usare la stessa carta in due mazzi diversi, nemmeno una.
+        {{ t('trio.intro') }}
       </VCol>
       <VCol>
-        Quante volte vi è capitato di essere in crisi per non sapere quali carte avete già messo in
-        condivisione tra voi e quindi di dover stendere nuovamente tutte le carte per vedere quali
-        avete in due o più mazzi? Potete ora usare questa rapida utility per controllare che non ci
-        siano carte condivise tra i vostri mazzi. Potete salvere i link ai mazzi dei componenti del
-        vostro team in modo tale che possiate controllare le liste aggiornate semplicemente
-        ricaricando questa pagina.
+        {{ t('trio.details') }}
       </VCol>
     </v-row>
   </VContainer>
@@ -88,6 +81,9 @@ import { computed, ref, watch } from 'vue';
 import type { Decklist } from '@/services/cardService';
 import UploadDeckDialog from '@/components/trio/UploadDeckDialog.vue';
 import DecklistCard from '@/components/trio/DecklistCard.vue';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 const isDev = import.meta.env.DEV;
 
