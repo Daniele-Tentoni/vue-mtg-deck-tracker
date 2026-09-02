@@ -1,0 +1,173 @@
+{
+  "common": {
+    "close": "Close",
+    "submit": "Submit",
+    "add": "Add",
+    "check": "Check",
+    "note": "Note",
+    "unknown": "unknown"
+  },
+  "app": {
+    "auth": {
+      "notAuthenticated": "Not authenticated",
+      "logout": "Logout",
+      "login": "Login",
+      "register": "Register",
+      "gravatar": "Gravatar"
+    },
+    "nav": {
+      "home": "Home",
+      "trio": "Trio",
+      "pauperArchetypes": "Pauper Archetypes"
+    },
+    "contribute": "If you want to contribute, explore the Github repository and open an issue or submit a pull request.",
+    "language": {
+      "title": "Language",
+      "english": "English",
+      "italian": "Italian"
+    }
+  },
+  "home": {
+    "welcome": "Welcome, explore the pauper meta."
+  },
+  "notFound": {
+    "message": "The page you are looking for, {path}, does not exist."
+  },
+  "dialogs": {
+    "login": {
+      "title": "Login",
+      "description": "I ask you only for an email so you do not have to remember another password. I will send you an email with a link you need to click to be redirected to this site.",
+      "needAccount": "If you need an account,",
+      "clickHere": "click here",
+      "emailPlaceholder": "Email",
+      "emailSent": "Check your email inbox for the login link!"
+    },
+    "register": {
+      "title": "Register",
+      "description": "I only ask you for an email to register, no more passwords. Activate your account by clicking on the link in the email I will send you and login next time with the same email.",
+      "alreadyAccount": "If you already have an account,",
+      "clickHere": "click here",
+      "emailPlaceholder": "Email",
+      "emailSent": "Check your email inbox for the registration link!"
+    },
+    "newMatch": {
+      "tooltip": "Add new match",
+      "button": "New match",
+      "title": "New match",
+      "selectDecks": "Select decks played by you and your opponent.",
+      "yourDeckLabel": "Your deck",
+      "theirDeckLabel": "Their deck",
+      "noArchetypeFound": "No archetype found",
+      "resultInstructions": "Indicate games won by you in the first column and games won by your opponent in the second column.",
+      "leftButton": "Left button: You",
+      "rightButton": "Right button: Opponent",
+      "gameOne": "Game one",
+      "firstSideGame": "First side game",
+      "secondSideGame": "Second side game",
+      "thirdGameHint": "You have to indicate first two games before the third one",
+      "noteHelp": "Use this field to note something you want to remember about this game.",
+      "missingArchetypeHelp": "If there are missing archetypes, open an issue on Github.",
+      "create": "Create",
+      "yourDeckRequired": "You have to specify your deck",
+      "theirDeckRequired": "You have to specify your opponent deck",
+      "completeResults": "Complete the match results before creating it",
+      "busy": "The system is busy, retry again later",
+      "saveError": "Unable to save the match right now",
+      "selectYourArchetype": "Select your archetype",
+      "selectTheirArchetype": "Select your opponent archetype",
+      "summary": {
+        "p1GameOne": "Player 1 won game one",
+        "p2GameOne": "Player 2 won game one",
+        "p1FirstSide": "Player 1 won first side game",
+        "p2FirstSide": "Player 2 won first side game",
+        "p1SecondSide": "Player 1 won second side game",
+        "p2SecondSide": "Player 2 won second side game"
+      }
+    }
+  },
+  "matchButtons": {
+    "player1Tooltip": "Player 1 won the game",
+    "player2Tooltip": "Player 2 won the game",
+    "you": "You",
+    "opponent": "Opponent",
+    "youWonAria": "You won the game",
+    "opponentWonAria": "Opponent won the game"
+  },
+  "archetypes": {
+    "headers": {
+      "archetype": "Archetype",
+      "winrate": "Winrate",
+      "gameWon": "Games won",
+      "gamesPlayed": "Games played",
+      "tier": "Tier"
+    },
+    "timeframe": {
+      "label": "Timeframe",
+      "all": "All time",
+      "last4Weeks": "Last 4 weeks",
+      "last4Months": "Last 4 months"
+    },
+    "title": "{format} win rates",
+    "sections": {
+      "needDataTitle": "I am looking for more data",
+      "needDataBody": "I need more data to improve win-rate and metrics accuracy. You can help grow the database by sending your results or by registering and uploading them.",
+      "contributeTitle": "How you can contribute",
+      "contributeBody": "You can open an Issue or submit a Pull Request to help improve this site, or create an account and start submitting your game data.",
+      "winrateTitle": "How win rates are calculated",
+      "winrateBody": "(Game one wins + first side game wins + second side game wins) / total games played. A draw keeps the win rate at 50%. The sum of win rate A vs B and win rate B vs A should be 100%.",
+      "tiersTitle": "How tiers are calculated",
+      "tiersBody": "Archetypes above 55% are Tier 1, between 50% and 55% are Tier 2, below 50% are Tier 3."
+    },
+    "debugItems": "Items"
+  },
+  "deckView": {
+    "headers": {
+      "archetype": "Archetype",
+      "theirArchetype": "Their archetype",
+      "score": "Score",
+      "date": "Date"
+    },
+    "collapse": "Collapse",
+    "moreInfo": "More info"
+  },
+  "me": {
+    "header": "Me {email}, user since {since}",
+    "tournaments": "Your tournaments"
+  },
+  "trio": {
+    "duplicatesWarning": "Your team decks contain duplicates",
+    "startCheck": "Start the deck checking",
+    "checkInProgress": "Check in progress",
+    "duplicatesCount": "Duplicates: {count}",
+    "intro": "Insert the decks you want to use for your next Team Trio and verify whether the lists are compatible. Remember that you cannot use cards that are not legal in Pauper and you cannot use the same card in two different decks, not even one copy.",
+    "details": "How often have you been unsure about which cards are already shared between decks and had to spread all cards again to check duplicates? You can now use this quick utility to verify there are no shared cards among your decks. Save deck links for your teammates so you can re-check updated lists simply by reloading this page."
+  },
+  "uploadDeck": {
+    "tooltip": "Add a new deck",
+    "title": "New deck",
+    "subtitle": "Insert a new deck in the comparison",
+    "pasteList": "Paste your list here:",
+    "deckInput": "Deck input",
+    "fromUrl": "Or download it from this URL (only Moxfield is supported):",
+    "url": "URL",
+    "closeHint": "When you are done, you can close this window by clicking the close button.",
+    "submit": "Submit",
+    "close": "Close"
+  },
+  "decklistCard": {
+    "removeDeck": "Remove deck from comparison",
+    "deckName": "Deck {index}"
+  },
+  "cardListItem": {
+    "notPauperLegal": "This card is not Pauper legal",
+    "duplicated": "This card is duplicated in your team"
+  },
+  "winrateTooltip": {
+    "gamesWon": "Games won: {count}",
+    "gamesPlayed": "Games played: {count}"
+  },
+  "trioStore": {
+    "fetchDeckError": "Error while downloading deck: {statusText}",
+    "fetchDeckErrorLog": "Error while downloading deck:"
+  }
+}

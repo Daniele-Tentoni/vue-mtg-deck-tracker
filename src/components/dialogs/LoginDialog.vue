@@ -3,7 +3,7 @@
     <template #default>
       <VCard :loading>
         <template #prepend><VIcon class="me-2">fas fa-right-to-bracket</VIcon></template>
-        <template #title>Login</template>
+        <template #title>{{ t('dialogs.login.title') }}</template>
         <template #append>
           <CloseButton @close="model = false"></CloseButton>
         </template>
@@ -11,13 +11,13 @@
           <VRow>
             <VCol>
               <p>
-                I ask you only for an email so you don't have to remeber another password. I will
-                send you an email with a link you have to click to be redirect to this site.
+                {{ t('dialogs.login.description') }}
               </p>
               <p class="mt-2">
-                If you need an account,
-                <span class="text-decoration-underline cursor-pointer" @click="emit('register')"
-                  >click here</span
+                {{ t('dialogs.login.needAccount') }}
+                <span class="text-decoration-underline cursor-pointer" @click="emit('register')">{{
+                  t('dialogs.login.clickHere')
+                }}</span
                 >.
               </p>
             </VCol>
@@ -27,7 +27,7 @@
               <VTextField
                 v-model="email"
                 type="email"
-                placeholder="Email"
+                :placeholder="t('dialogs.login.emailPlaceholder')"
                 :error-messages="loginError"
                 @keyup.enter="login"
               ></VTextField>
@@ -36,7 +36,7 @@
         </template>
         <template #actions>
           <VBtn color="success" prepend-icon="fas fa-arrow-right-to-bracket" @click="login">
-            Login
+            {{ t('dialogs.login.title') }}
           </VBtn>
         </template>
       </VCard>
@@ -48,6 +48,9 @@
 import { supabase } from '@/services/supabaseService';
 import { ref } from 'vue';
 import CloseButton from '@/components/dialogs/CloseButton.vue';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 const model = defineModel<boolean>();
 
@@ -70,7 +73,7 @@ async function login() {
     if (error) {
       loginError.value = error.message;
     } else {
-      alert('Check your email inbox for the login link!');
+      alert(t('dialogs.login.emailSent'));
       model.value = false;
     }
   } finally {

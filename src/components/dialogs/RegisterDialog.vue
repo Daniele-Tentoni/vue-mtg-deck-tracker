@@ -3,7 +3,7 @@
     <template #default>
       <VCard :loading>
         <template #prepend><VIcon class="me-2">fas fa-user-plus </VIcon></template>
-        <template #title>Register</template>
+        <template #title>{{ t('dialogs.register.title') }}</template>
         <template #append>
           <CloseButton @close="model = false"></CloseButton>
         </template>
@@ -11,14 +11,13 @@
           <VRow>
             <VCol>
               <p>
-                I only ask you for an email to register, no more passwords! Activate your account by
-                clicking on the link in the email I will send you and login next time with the same
-                email.
+                {{ t('dialogs.register.description') }}
               </p>
               <p class="mt-2">
-                If you already have an account,
-                <span class="text-decoration-underline cursor-pointer" @click="emit('login')"
-                  >click here</span
+                {{ t('dialogs.register.alreadyAccount') }}
+                <span class="text-decoration-underline cursor-pointer" @click="emit('login')">{{
+                  t('dialogs.register.clickHere')
+                }}</span
                 >.
               </p>
             </VCol>
@@ -28,7 +27,7 @@
               <VTextField
                 v-model="email"
                 type="email"
-                placeholder="Email"
+                :placeholder="t('dialogs.register.emailPlaceholder')"
                 :error-messages="registerMessages"
                 :hide-details="true"
                 @keyup.enter="register"
@@ -37,9 +36,9 @@
           </VRow>
         </template>
         <template #actions>
-          <VBtn @click="register" prepend-icon="fas fa-arrow-right-to-bracket" color="success"
-            >Register</VBtn
-          >
+          <VBtn @click="register" prepend-icon="fas fa-arrow-right-to-bracket" color="success">{{
+            t('dialogs.register.title')
+          }}</VBtn>
         </template>
       </VCard>
     </template>
@@ -50,6 +49,9 @@
 import { ref } from 'vue';
 import { supabase } from '@/services/supabaseService';
 import CloseButton from '@/components/dialogs/CloseButton.vue';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 const model = defineModel<boolean>();
 
@@ -75,7 +77,7 @@ async function register() {
       registerMessages.value = error.message;
     } else {
       if (data) {
-        alert('Controlla la tua casella di posta');
+        alert(t('dialogs.register.emailSent'));
       }
 
       model.value = false;

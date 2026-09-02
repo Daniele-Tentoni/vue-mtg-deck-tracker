@@ -9,21 +9,25 @@
     :data-test="`match-button-group-${p.num}`"
   >
     <div>
-      <VTooltip :text="`Player 1 have won the game`">
+      <VTooltip :text="t('matchButtons.player1Tooltip')">
         <template #activator="{ props }">
           <VBtn
             v-bind="props"
-            :icon="`fas fa-${p.num}`"
+            :text="t('matchButtons.you')"
+            min-width="72"
+            :aria-label="t('matchButtons.youWonAria')"
             :data-test="`match-button-group-${p.num}-button-0`"
             class="pa-2"
           ></VBtn>
         </template>
       </VTooltip>
-      <VTooltip :text="`Player 2 have won the game`">
+      <VTooltip :text="t('matchButtons.player2Tooltip')">
         <template #activator="{ props }">
           <VBtn
             v-bind="props"
-            :icon="`fas fa-${p.num}`"
+            :text="t('matchButtons.opponent')"
+            min-width="96"
+            :aria-label="t('matchButtons.opponentWonAria')"
             :data-test="`match-button-group-${p.num}-button-1`"
             class="pa-2"
           ></VBtn>
@@ -34,7 +38,11 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
+
 const p = defineProps(['disabled', 'num']);
 
 const model = defineModel();
+
+const { t } = useI18n();
 </script>

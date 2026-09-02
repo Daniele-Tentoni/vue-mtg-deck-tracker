@@ -26,7 +26,7 @@
             {{ matchScore(item) }}
           </template>
           <template v-slot:[`item.created_at`]="{ item }">
-            {{ new Date(item.created_at).toLocaleDateString() }}
+            {{ new Date(item.created_at).toLocaleDateString(locale) }}
           </template>
           <template v-slot:[`item.side_second_win`]="{ item }">
             {{ item.side_second_win }}
@@ -35,7 +35,7 @@
             <VBtn
               v-if="item.note"
               :append-icon="isExpanded(internalItem) ? 'fas fa-chevron-up' : 'fas fa-chevron-down'"
-              :text="isExpanded(internalItem) ? 'Collapse' : 'More info'"
+              :text="isExpanded(internalItem) ? t('deckView.collapse') : t('deckView.moreInfo')"
               class="text-none"
               color="medium-emphasis"
               size="small"
@@ -56,7 +56,7 @@
     <!--<VRow v-if="isDev">
       <VCol>
         <VExpansionPanels>
-          <VExpansionPanel title="Items" :text="JSON.stringify(items)"> </VExpansionPanel>
+          <VExpansionPanel :title="t('archetypes.debugItems')" :text="JSON.stringify(items)"> </VExpansionPanel>
         </VExpansionPanels>
       </VCol>
     </VRow>-->
@@ -65,12 +65,15 @@
 
 <script setup lang="ts">
 import NewMatchDialog from '@/components/NewMatchDialog.vue';
-import { isArch, MatchClass } from '@/models/Deck';
+import { isArch } from '@/models/Deck';
 import { useAccount } from '@/stores/account';
 import { useArchetype } from '@/stores/archetype';
 import { useDeck, type Archetype, type MatchWithArchetypeType } from '@/stores/matches';
 import { computed, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
+import { useI18n } from 'vue-i18n';
+
+const { t, locale } = useI18n();
 
 const route = useRoute();
 const deck = computed(() => route.params.deck?.toString());
@@ -79,19 +82,19 @@ const myArchetype = ref<Archetype>();
 
 const headers = [
   {
-    title: 'Archetype',
+    title: t('deckView.headers.archetype'),
     key: 'my_archetype',
   },
   {
-    title: 'Their archetype',
+    title: t('deckView.headers.theirArchetype'),
     key: 'their_archetype',
   },
   {
-    title: 'Score',
+    title: t('deckView.headers.score'),
     key: 'score',
   },
   {
-    title: 'Date',
+    title: t('deckView.headers.date'),
     key: 'created_at',
   },
 ];
@@ -144,6 +147,4 @@ onMounted(async () => {
     loading.value = false;
   }
 });
-
-const isDev = import.meta.env.DEV;
 </script>

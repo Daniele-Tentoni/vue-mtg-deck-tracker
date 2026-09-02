@@ -5,7 +5,7 @@
       <VTextField v-else v-model="deckName"></VTextField>
     </template>
     <template #append>
-      <v-tooltip text="Remove deck from comparison">
+      <v-tooltip :text="t('decklistCard.removeDeck')">
         <template #activator="{ props }">
           <VBtn
             v-bind="props"
@@ -44,6 +44,9 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import CardListItem from './CardListItem.vue';
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
 
 const props = defineProps(['coloredCards', 'deck', 'index']);
 
@@ -55,5 +58,5 @@ function removeDeck(i: number) {
 
 const deckEditing = ref(false);
 
-const deckName = ref(`Deck ${props.index + 1}`);
+const deckName = ref(t('decklistCard.deckName', { index: props.index + 1 }));
 </script>

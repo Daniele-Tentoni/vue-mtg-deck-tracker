@@ -1,5 +1,5 @@
 <template>
-  <VTooltip text="Close">
+  <VTooltip :text="t('common.close')">
     <template #activator="{ props }">
       <VBtn
         v-bind="props"
@@ -14,5 +14,9 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
+
 const emits = defineEmits(['close']);
+
+const { t } = useI18n();
 </script>

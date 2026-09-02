@@ -1,6 +1,6 @@
 <template>
   <v-container fluid class="fill-height">
-    Me {{ me.account?.email }}, user since {{ since }}
+    {{ t('me.header', { email: me.account?.email ?? '', since }) }}
     <v-row v-if="loading">
       <v-icon>fa fa-spinner fa-spin</v-icon>
     </v-row>
@@ -27,7 +27,7 @@
         </v-row>
         <v-row>
           <v-col>
-            <h2>Your tournaments</h2>
+            <h2>{{ t('me.tournaments') }}</h2>
             <v-list>
               <v-list-item v-for="tournament in tournamentStore.t" :key="tournament.id">
                 {{ tournament }}
@@ -53,12 +53,15 @@ import { useTournament } from '@/stores/tournaments';
 import { PostgrestError } from '@supabase/supabase-js';
 import { computed, onMounted, ref, watch } from 'vue';
 import { VIcon } from 'vuetify/components';
+import { useI18n } from 'vue-i18n';
+
+const { t, locale } = useI18n();
 
 const me = useAccount();
 
 const since = computed(() => {
-  if (!me.account?.created_at) return 'unknown';
-  return new Date(me.account.created_at).toLocaleString();
+  if (!me.account?.created_at) return t('common.unknown');
+  return new Date(me.account.created_at).toLocaleString(locale.value);
 });
 
 const matches = ref<MatchWithArchetypeType[]>();
@@ -82,7 +85,7 @@ async function loadDecks() {
       matches.value = data;
     }
   } catch (error) {
-    console.error('Error loading matches: ', error);
+    console.error(t('trioStore.fetchDeckErrorLog'), error);
     if (error instanceof PostgrestError) {
       errorDeck.value = error.message;
     }
@@ -99,7 +102,7 @@ async function loadTournaments() {
     matches.value = [];
     await tournamentStore.loadAsync(me.account.id);
   } catch (error) {
-    console.error('Error loading matches: ', error);
+    console.error(t('trioStore.fetchDeckErrorLog'), error);
     if (error instanceof PostgrestError) {
       errorDeck.value = error.message;
     }
