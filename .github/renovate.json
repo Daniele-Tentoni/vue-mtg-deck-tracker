@@ -8,6 +8,14 @@
       "description": "Disable patch updates",
       "matchUpdateTypes": ["patch"],
       "enabled": false
+    },
+    {
+      "description": "Update TypeScript to non-7.0 versions",
+      "matchDatasources": ["npm"],
+      "matchPackagePatterns": ["^typescript$"],
+      "rangeStrategy": "bump",
+      "allowedVersions": "!/^7\\.0\\./",
+      "enabled": true
     }
   ]
 }
