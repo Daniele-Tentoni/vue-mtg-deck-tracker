@@ -16,6 +16,7 @@ const definePlugins = (mode: string) => {
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => ({
+  base: '/vue-mtg-deck-tracker/',
   plugins: definePlugins(mode),
   resolve: {
     alias: {
