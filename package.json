@@ -60,6 +60,6 @@
     "vue-tsc": "^3.3.1"
   },
   "allowScripts": {
-    "cypress@15.21.0": true
+    "cypress@16.2.0": true
   }
 }
