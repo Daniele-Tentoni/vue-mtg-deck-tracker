@@ -28,7 +28,7 @@
     "vue": "3.5.44",
     "vue-i18n": "^11.4.17",
     "vue-router": "^5.4.0",
-    "vuetify": "^4.2.0"
+    "vuetify": "^4.3.1"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^7.3.0",
