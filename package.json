@@ -33,7 +33,7 @@
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^7.3.0",
     "@intlify/eslint-plugin-vue-i18n": "^4.5.1",
-    "@tsconfig/node24": "^24.0.4",
+    "@tsconfig/node26": "^26.0.0",
     "@types/blueimp-md5": "^2.18.2",
     "@types/jsdom": "^30.0.0",
     "@types/node": "^26.6.5",
